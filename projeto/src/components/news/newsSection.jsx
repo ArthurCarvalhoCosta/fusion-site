@@ -1,6 +1,6 @@
-// src/components/News/News.jsx
 import { useEffect, useState } from 'react';
 import './News.css';
+import '../../assets/css/style.css';
 
 function News() {
   const [noticias, setNoticias] = useState([]);

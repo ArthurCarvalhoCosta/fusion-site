@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Header.css';
+import '../../assets/css/style.css';
 import logo from '../../assets/img/logo.png';
 import perfilIcon from '../../assets/img/perfil-icon.png';
 

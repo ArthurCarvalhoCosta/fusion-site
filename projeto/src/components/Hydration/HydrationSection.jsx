@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Hydration.css';
+import '../../assets/css/style.css';
 import aguaIcon from '../../assets/img/agua-icon.png';
 
 const Hydration = () => {
