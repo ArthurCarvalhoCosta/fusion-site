@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+/* Variáveis globais */
+:root {
+  --red: #E91508;
+  --dark-red: #C60703;
+  --dark-gray: #333333;
+  --white: #F3F3F3;
+
+  --right-gradient: linear-gradient(to right, var(--red), var(--dark-red));
+  --bottom-gradient: linear-gradient(to bottom, var(--red), var(--dark-red));
+
+  --font: 'Montserrat', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home {
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: right;
+  overflow: visible;
+}
+
+
+
+.home-right {
+  width: 50%;
+  height: 130%;
+  background-color: var(--dark-gray);
+  padding: 6rem 5rem;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 92%, 0 85%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--white);
+  z-index: 10;
+  position: relative;
+  text-align: left;
+  gap: 2rem;
+}
+
+.home-right h1 {
+  font-size: 48px;
+  line-height: 1.2;
+  font-weight: 400;
+  margin: 0;
+}
+
+.home-right p {
+  font-size: 18px;
+  max-width: 90%;
+  color: #ccc;
+  margin: 0;
+}
+
+.btn-red {
+  width: 260px;
+  height: 80px;
+  margin-top: 1.5rem;
+  background: var(--right-gradient);
+  color: var(--white);
+  font-size: 24px;
+}
