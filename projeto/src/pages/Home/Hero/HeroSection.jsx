@@ -1,6 +1,6 @@
-import './Home.css';
-import '../../assets/css/style.css';
-import bannerImg from '../../assets/img/banner.png';
+import './Hero.css';
+import '../../../assets/css/style.css';
+import bannerImg from '../../../assets/img/banner.png';
 
 const HomeSection = () => {
   return (

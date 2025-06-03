@@ -1,29 +1,26 @@
 import { useState } from 'react';
 import './Hydration.css';
-import '../../assets/css/style.css';
-import aguaIcon from '../../assets/img/agua-icon.png';
+import '../../../assets/css/style.css';
+import aguaIcon from '../../../assets/img/agua-icon.png';
 
 const Hydration = () => {
+  const [peso, setPeso] = useState('');
   const [ml, setMl] = useState('--');
   const [litros, setLitros] = useState('--');
 
   const calcularAgua = () => {
-    const pesoInput = document.getElementById('peso');
-    const mlSpan = document.getElementById('ml');
-    const litrosSpan = document.getElementById('litros');
+    const pesoFloat = parseFloat(peso);
 
-    const peso = parseFloat(pesoInput.value);
+    if (!isNaN(pesoFloat) && pesoFloat > 0) {
+      const mlCalculado = pesoFloat * 35;
+      const litrosCalculado = (mlCalculado / 1000).toFixed(2);
 
-    if (!isNaN(peso) && peso > 0) {
-        const ml = peso * 35;
-        const litros = (ml / 1000).toFixed(2);
-
-        mlSpan.textContent = ml.toFixed(0);
-        litrosSpan.textContent = litros;
+      setMl(mlCalculado.toFixed(0));
+      setLitros(litrosCalculado);
     } else {
-        mlSpan.textContent = '0000';
-        litrosSpan.textContent = '0.0';
-        alert('Por favor, insira um peso válido para calcular.');
+      setMl('0000');
+      setLitros('0.0');
+      alert('Por favor, insira um peso válido para calcular.');
     }
   };
 
@@ -50,15 +47,20 @@ const Hydration = () => {
         <div className="hydration-container">
           <div className="form hydration-form">
             <div className="input-group">
-              <input type="number" placeholder="Idade" id="idade" />
+              <input type="number" placeholder="Idade" />
               <span>Anos</span>
             </div>
             <div className="input-group">
-              <input type="number" placeholder="Altura" id="altura" />
+              <input type="number" placeholder="Altura" />
               <span>Cm</span>
             </div>
             <div className="input-group">
-              <input type="number" placeholder="Peso" id="peso" />
+              <input
+                type="number"
+                placeholder="Peso"
+                value={peso}
+                onChange={(e) => setPeso(e.target.value)}
+              />
               <span>Kg</span>
             </div>
             <button type="button" className="btn btn-hydration" onClick={calcularAgua}>
@@ -69,8 +71,8 @@ const Hydration = () => {
           <div className="hydration-result">
             <img src={aguaIcon} alt="Ícone de garrafa de água" />
             <p>
-              Você deve beber cerca de <span id="ml">{ml}</span> mL <br />
-              <span id="litros">{litros}</span> L por dia.
+              Você deve beber cerca de <span>{ml}</span> mL <br />
+              <span>{litros}</span> L por dia.
             </p>
           </div>
         </div>
