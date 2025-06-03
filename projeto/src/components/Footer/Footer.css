@@ -1,0 +1,95 @@
+.footer {
+  background-color: #222;
+  color: var(--white);
+  padding: 40px 20px;
+}
+
+.footer-container {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.footer-logo {
+  max-width: 120px;
+  height: auto;
+  flex-shrink: 0;
+  margin: auto;
+  margin-right: 60px;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-section h3 {
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-section li {
+  margin-bottom: 8px;
+}
+
+.footer-section a {
+  color: var(--white);
+  text-decoration: none;
+  padding: 2px 0;
+  display: inline-block;
+  position: relative;
+}
+
+.footer-section a:hover {
+  color: var(--red);
+  text-decoration: underline;
+}
+
+.footer-section p {
+  margin-bottom: 8px;
+}
+
+.social-icon {
+  width: 32px;
+  margin-top: 10px;
+}
+
+.footer-links {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links a {
+  color: var(--white);
+  text-decoration: none;
+  padding: 8px 0;
+  font-weight: 600;
+  position: relative;
+  cursor: pointer;
+}
+
+.footer-links a:hover {
+  color: var(--red);
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background: var(--red);
+  transition: left 0.3s ease, width 0.3s ease;
+  border-radius: 2px;
+}

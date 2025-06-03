@@ -52,10 +52,10 @@ const Header = () => {
   };
 
   const links = [
-    { text: 'Início', href: '#inicio' },
-    { text: 'Hidratação', href: '#hidratacao' },
-    { text: 'Notícias', href: '#noticias' },
-    { text: 'Contato', href: '#contato' },
+    { text: 'Início', href: '#home' },
+    { text: 'Hidratação', href: '#hydration' },
+    { text: 'Notícias', href: '#news' },
+    { text: 'Contato', href: '#contact' },
   ];
 
   return (
