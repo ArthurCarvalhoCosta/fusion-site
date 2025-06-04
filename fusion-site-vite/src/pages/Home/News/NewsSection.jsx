@@ -11,16 +11,24 @@ const palavrasChave = [
   'exercício'
 ];
 
+import treinoImg from '../../../assets/img/noticia-treino.png';
+import musculacaoImg from '../../../assets/img/noticia-musculacao.png';
+import academiaImg from '../../../assets/img/noticia-academia.png';
+import nutricaoImg from '../../../assets/img/noticia-nutricao.png';
+import hipertrofiaImg from '../../../assets/img/noticia-hipertrofia.png';
+import exercicioImg from '../../../assets/img/noticia-exercicio.png';
+import padraoImg from '../../../assets/img/noticia-padrao.png';
+
 const imagensPorTema = {
-  treino: require('../../../assets/img/noticia-treino.png'),
-  musculação: require('../../../assets/img/noticia-musculacao.png'),
-  academia: require('../../../assets/img/noticia-academia.png'),
-  nutrição: require('../../../assets/img/noticia-nutricao.png'),
-  hipertrofia: require('../../../assets/img/noticia-hipertrofia.png'),
-  exercício: require('../../../assets/img/noticia-exercicio.png')
+  treino: treinoImg,
+  musculação: musculacaoImg,
+  academia: academiaImg,
+  nutrição: nutricaoImg,
+  hipertrofia: hipertrofiaImg,
+  exercício: exercicioImg
 };
 
-const imagemPadrao = require('../../../assets/img/noticia-padrao.png');
+const imagemPadrao = padraoImg;
 
 function News() {
   const [noticias, setNoticias] = useState([]);
