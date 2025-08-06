@@ -2,7 +2,7 @@ import "./HowItWorks.css"
 
 export const HowItWorks = () => {
   return (
-    <section className="how-it-works">
+    <section className="how-it-works" id="HowItWorks">
       <div class="section-title">
         <span class="background-number">02</span>
         <h2>

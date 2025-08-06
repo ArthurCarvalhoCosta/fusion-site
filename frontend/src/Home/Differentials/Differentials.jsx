@@ -22,7 +22,7 @@ const items = [
 
 export const Differentials = () => {
   return (
-    <section className="differentials-container">
+    <section className="differentials-container" id="differentials">
       <div class="section-title">
         <span class="background-number">01</span>
         <h2>

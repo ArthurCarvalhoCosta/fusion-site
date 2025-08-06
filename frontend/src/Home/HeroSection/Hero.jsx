@@ -3,7 +3,7 @@ import heroImage from '../../assets/img/hero.png'
 
 export const HeroSection = () => {
   return (
-    <section className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
+    <section className="hero-container" style={{ backgroundImage: `url(${heroImage})` }} id='Home'>
       <div className="content-wrapper">
         <div className="right-content">
           <h1 className="titlee">

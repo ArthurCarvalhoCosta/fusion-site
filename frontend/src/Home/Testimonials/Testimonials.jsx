@@ -119,7 +119,7 @@ export const Testimonials = () => {
   }, []);
 
   return (
-    <section className="testimonials-section">
+    <section className="testimonials-section" id="testimonials">
       <div className="section-title">
         <span className="background-number">03</span>
         <h2>
