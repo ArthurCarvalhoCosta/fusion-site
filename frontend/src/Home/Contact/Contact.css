@@ -1,0 +1,93 @@
+.contact-section {
+  color: var(--light-color);
+  padding: 2rem 10rem;
+  text-align: center;
+}
+
+.contact-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 992px) {
+  .contact-content {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+.contact-left {
+  max-width: 600px;
+  text-align: left;
+}
+
+.contact-left h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.contact-left p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+}
+
+.benefits-list li {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.check-icon {
+  color: var(--primary-color);
+  margin-right: 0.8rem;
+}
+
+.contact-right {
+  background-color: var(--dark-color);
+  padding: 2.5rem;
+  border-radius: 16px;
+  height: 400px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.contact-right h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 3.5rem;
+}
+
+.bot-icon {
+  width: 90px;
+  height: 80px;
+  margin: 0 auto 3.5rem;
+  opacity: 0.7;
+}
+
+.contact-button {
+  height: 60px; width: 400px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border: none;
+  color: var(--light-color);
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contact-button:hover {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+}

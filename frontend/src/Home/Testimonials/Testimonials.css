@@ -21,15 +21,15 @@
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0px,
-    black 50px,
-    black calc(100% - 50px),
+    var(--background-color) 50px,
+    var(--background-color) calc(100% - 50px),
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
     transparent 0px,
-    black 50px,
-    black calc(100% - 50px),
+    var(--background-color) 50px,
+    var(--background-color) calc(100% - 50px),
     transparent 100%
   );
 }

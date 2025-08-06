@@ -4,6 +4,7 @@ import { AboutFusion } from './AboutFusion/AboutFusion.jsx'
 import { Differentials } from './Differentials/Differentials.jsx'
 import { HowItWorks } from './HowItWorks/HowItWorks.jsx'
 import { Testimonials } from './Testimonials/Testimonials.jsx'
+import { Contact } from './Contact/Contact.jsx'
 
 export const Home = () => {
   return (
@@ -14,6 +15,7 @@ export const Home = () => {
       <Differentials />
       <HowItWorks />
       <Testimonials />
+      <Contact />
     </>
   )
 }

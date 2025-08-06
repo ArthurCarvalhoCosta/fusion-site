@@ -4,31 +4,31 @@ import quoteImg from "../../assets/img/quote.png";
 
 const testimonials = [
   {
-    name: "Nome",
+    name: "Nome A",
     age: "Idade",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
-    name: "Nome",
+    name: "Nome B",
     age: "Idade",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
-    name: "Nome",
+    name: "Nome C",
     age: "Idade",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
-    name: "Nome",
+    name: "Nome D",
     age: "Idade",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
-    name: "Nome",
+    name: "Nome E",
     age: "Idade",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
