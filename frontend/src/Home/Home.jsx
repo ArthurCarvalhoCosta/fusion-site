@@ -1,4 +1,5 @@
 import { Header } from '../components/Header/Header.jsx'
+import { Footer } from '../components/Footer/Footer.jsx'
 import { HeroSection } from './HeroSection/Hero.jsx'
 import { AboutFusion } from './AboutFusion/AboutFusion.jsx' 
 import { Differentials } from './Differentials/Differentials.jsx'
@@ -18,6 +19,7 @@ export const Home = () => {
       <Testimonials />
       <Contact />
       <CallToAction />
+      <Footer />
     </>
   )
 }

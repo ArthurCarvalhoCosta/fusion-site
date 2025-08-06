@@ -3,7 +3,7 @@ import "./CallToAction.css";
 
 export const CallToAction = () => {
   return (
-    <section className="call-to-action" id="contato">
+    <section className="call-to-action" id="Start">
       <div className="cta-content">
         <h2>Fale com a gente e comece sua evolução.</h2>
         <p>
