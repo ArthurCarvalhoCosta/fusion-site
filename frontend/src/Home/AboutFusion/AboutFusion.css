@@ -1,0 +1,38 @@
+.about-container {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-container .title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.about-container .description {
+  width: 750px;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.about-container .read-more-button {
+  background-color: var(--light-color);
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  padding: 1rem 2.4rem;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.about-container .read-more-button:hover {
+  background-color: var(--light-color);
+}

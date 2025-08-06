@@ -1,0 +1,21 @@
+import './Hero.css'
+import heroImage from '../../assets/img/hero.png'
+
+export const HeroSection = () => {
+  return (
+    <section className="hero-container" style={{ backgroundImage: `url(${heroImage})` }}>
+      <div className="content-wrapper">
+        <div className="right-content">
+          <h1 className="titlee">
+            Aqui começa sua jornada para uma vida mais saudável!
+          </h1>
+          <p className="description">
+            Crie sua ficha de treino personalizada e alcance seus objetivos com precisão.
+            Simples, rápido e do seu jeito.
+          </p>
+          <button className="cta-button">Comece Agora</button>
+        </div>
+      </div>
+    </section>
+  )
+}
