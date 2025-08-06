@@ -37,83 +37,86 @@ const testimonials = [
 
 export const Testimonials = () => {
   const carouselRef = useRef(null);
-  const isDown = useRef(false);
+  const isDragging = useRef(false);
   const startX = useRef(0);
-  const scrollLeft = useRef(0);
+  const scrollStart = useRef(0);
   const [activeIndex, setActiveIndex] = useState(1);
 
+  // Centraliza o segundo card na inicialização
   useEffect(() => {
     const carousel = carouselRef.current;
     const cardWidth = 450;
     const gap = 50;
     const cardIndex = 1;
-
     const containerWidth = carousel.offsetWidth;
-    const cardStart = (cardWidth + gap) * cardIndex;
-    const scrollTo = Math.max(0, cardStart - containerWidth / 2 + cardWidth / 2);
-
+    const scrollTo = Math.max(0, (cardWidth + gap) * cardIndex - containerWidth / 2 + cardWidth / 2);
     setTimeout(() => {
-      carousel.scrollTo({
-        left: scrollTo,
-        behavior: "smooth",
-      });
+      carousel.scrollTo({ left: scrollTo, behavior: "smooth" });
     }, 100);
   }, []);
 
+  // Atualiza o índice ativo conforme o scroll
   useEffect(() => {
-    const handleScroll = () => {
-      const carousel = carouselRef.current;
+    const carousel = carouselRef.current;
+    const onScroll = () => {
       const cards = Array.from(carousel.querySelectorAll(".testimonial-card"));
       const center = carousel.scrollLeft + carousel.offsetWidth / 2;
-
       let closestIndex = 0;
-      let closestDistance = Infinity;
+      let minDistance = Infinity;
 
-      cards.forEach((card, index) => {
+      cards.forEach((card, i) => {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        const distance = Math.abs(center - cardCenter);
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = index;
+        const dist = Math.abs(center - cardCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestIndex = i;
         }
       });
-
       setActiveIndex(closestIndex);
     };
-
-    const carousel = carouselRef.current;
-    carousel.addEventListener("scroll", handleScroll);
-    handleScroll(); // run on mount
-
-    return () => {
-      carousel.removeEventListener("scroll", handleScroll);
-    };
+    carousel.addEventListener("scroll", onScroll);
+    onScroll();
+    return () => carousel.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleMouseDown = (e) => {
-    isDown.current = true;
-    carouselRef.current.classList.add("grabbing");
-    startX.current = e.pageX - carouselRef.current.offsetLeft;
-    scrollLeft.current = carouselRef.current.scrollLeft;
-  };
+  // Controla o drag usando eventos nativos para resposta instantânea
+  useEffect(() => {
+    const carousel = carouselRef.current;
 
-  const handleMouseLeave = () => {
-    isDown.current = false;
-    carouselRef.current.classList.remove("grabbing");
-  };
+    const onMouseDown = (e) => {
+      isDragging.current = true;
+      carousel.classList.add("grabbing");
+      startX.current = e.pageX - carousel.offsetLeft;
+      scrollStart.current = carousel.scrollLeft;
+    };
+    const onMouseMove = (e) => {
+      if (!isDragging.current) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX.current) * 1.5; // ajuste velocidade aqui
+      carousel.scrollLeft = scrollStart.current - walk;
+    };
+    const onMouseUp = () => {
+      isDragging.current = false;
+      carousel.classList.remove("grabbing");
+    };
+    const onMouseLeave = () => {
+      isDragging.current = false;
+      carousel.classList.remove("grabbing");
+    };
 
-  const handleMouseUp = () => {
-    isDown.current = false;
-    carouselRef.current.classList.remove("grabbing");
-  };
+    carousel.addEventListener("mousedown", onMouseDown);
+    carousel.addEventListener("mousemove", onMouseMove);
+    carousel.addEventListener("mouseup", onMouseUp);
+    carousel.addEventListener("mouseleave", onMouseLeave);
 
-  const handleMouseMove = (e) => {
-    if (!isDown.current) return;
-    e.preventDefault();
-    const x = e.pageX - carouselRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.5;
-    carouselRef.current.scrollLeft = scrollLeft.current - walk;
-  };
+    return () => {
+      carousel.removeEventListener("mousedown", onMouseDown);
+      carousel.removeEventListener("mousemove", onMouseMove);
+      carousel.removeEventListener("mouseup", onMouseUp);
+      carousel.removeEventListener("mouseleave", onMouseLeave);
+    };
+  }, []);
 
   return (
     <section className="testimonials-section">
@@ -125,14 +128,7 @@ export const Testimonials = () => {
         </h2>
       </div>
 
-      <div
-        className="testimonials-carousel"
-        ref={carouselRef}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-      >
+      <div className="testimonials-carousel" ref={carouselRef}>
         {testimonials.map((t, i) => (
           <div
             key={i}
