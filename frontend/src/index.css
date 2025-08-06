@@ -2,14 +2,16 @@
 
 :root {
   --primary-color: #ff3322;
-  --secundary-color: #E91508;
+  --secondary-color: #E91508;
   --tertiary-color: #C60703;
   --dark-color: #222;
   --light-color: #f3f3f3;
   --background-color: #333;
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -17,6 +19,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -25,6 +28,7 @@ body {
   color: var(--light-color);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img {
@@ -35,6 +39,14 @@ img {
 a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--primary-color);
+  outline: none;
 }
 
 button {
@@ -42,6 +54,10 @@ button {
   border: none;
   outline: none;
   background: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  transition: background-color 0.3s ease;
 }
 
 .section-title {
@@ -49,6 +65,7 @@ button {
   text-align: center;
   position: relative;
   overflow: hidden;
+  user-select: none;
 }
 
 .section-title .background-number {
@@ -60,7 +77,6 @@ button {
   color: rgba(255, 255, 255, 0.03);
   z-index: 0;
   pointer-events: none;
-  user-select: none;
 }
 
 .section-title h2 {

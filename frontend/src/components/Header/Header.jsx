@@ -3,7 +3,7 @@ import logoImg from '../../assets/img/logo.png'
 import { useEffect, useState } from 'react'
 
 export const Header = () => {
-  const [activeSection, setActiveSection] = useState('')
+  const [activeSection, setActiveSection] = useState(null) // Corrigido aqui
 
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]')

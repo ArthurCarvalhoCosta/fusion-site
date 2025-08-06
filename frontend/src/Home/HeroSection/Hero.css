@@ -21,7 +21,7 @@
 .right-content {
   background-color: var(--background-color);
   color: var(--light-color);
-  height: 125vh;
+  min-height: 125vh;
   width: 100%;
   clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 95%, 0 85%);
   padding: 4rem;
@@ -32,7 +32,7 @@
   z-index: 2;
 }
 
-.titlee {
+.title-section {
   font-size: 2.6rem;
   font-weight: normal;
   margin-bottom: 1rem;
@@ -41,20 +41,19 @@
 
 .description {
   font-size: 1.2rem;
-  width: 520px;
+  max-width: 520px;
   margin-bottom: 2rem;
   color: var(--light-color);
 }
 
 .cta-button {
-  width: 240px;
-  height: 64px;
+  width: 200px;
+  height: 68px;
   background-color: var(--primary-color);
   color: var(--light-color);
   font-weight: bold;
-  padding: 1rem 2rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 1.4rem;
   cursor: pointer;
   transition: background 0.3s;

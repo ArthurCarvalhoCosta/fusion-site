@@ -7,31 +7,31 @@ const testimonials = [
     name: "Nome",
     age: "Idade",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     name: "Nome",
     age: "Idade",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     name: "Nome",
     age: "Idade",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     name: "Nome",
     age: "Idade",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
   {
     name: "Nome",
     age: "Idade",
     text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
   },
 ];
 
@@ -42,25 +42,26 @@ export const Testimonials = () => {
   const scrollStart = useRef(0);
   const [activeIndex, setActiveIndex] = useState(1);
 
-  // Centraliza o segundo card na inicialização
   useEffect(() => {
     const carousel = carouselRef.current;
     const cardWidth = 450;
     const gap = 50;
     const cardIndex = 1;
     const containerWidth = carousel.offsetWidth;
-    const scrollTo = Math.max(0, (cardWidth + gap) * cardIndex - containerWidth / 2 + cardWidth / 2);
+    const scrollTo =
+      Math.max(0, (cardWidth + gap) * cardIndex - containerWidth / 2 + cardWidth / 2);
     setTimeout(() => {
       carousel.scrollTo({ left: scrollTo, behavior: "smooth" });
     }, 100);
   }, []);
 
-  // Atualiza o índice ativo conforme o scroll
   useEffect(() => {
     const carousel = carouselRef.current;
-    const onScroll = () => {
+
+    function onScroll() {
       const cards = Array.from(carousel.querySelectorAll(".testimonial-card"));
       const center = carousel.scrollLeft + carousel.offsetWidth / 2;
+
       let closestIndex = 0;
       let minDistance = Infinity;
 
@@ -72,49 +73,49 @@ export const Testimonials = () => {
           closestIndex = i;
         }
       });
+
       setActiveIndex(closestIndex);
-    };
+    }
+
     carousel.addEventListener("scroll", onScroll);
     onScroll();
+
     return () => carousel.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Controla o drag usando eventos nativos para resposta instantânea
   useEffect(() => {
     const carousel = carouselRef.current;
 
-    const onMouseDown = (e) => {
+    function onMouseDown(e) {
       isDragging.current = true;
       carousel.classList.add("grabbing");
       startX.current = e.pageX - carousel.offsetLeft;
       scrollStart.current = carousel.scrollLeft;
-    };
-    const onMouseMove = (e) => {
+    }
+
+    function onMouseMove(e) {
       if (!isDragging.current) return;
       e.preventDefault();
       const x = e.pageX - carousel.offsetLeft;
-      const walk = (x - startX.current) * 1.5; // ajuste velocidade aqui
+      const walk = (x - startX.current) * 1.5;
       carousel.scrollLeft = scrollStart.current - walk;
-    };
-    const onMouseUp = () => {
+    }
+
+    function endDrag() {
       isDragging.current = false;
       carousel.classList.remove("grabbing");
-    };
-    const onMouseLeave = () => {
-      isDragging.current = false;
-      carousel.classList.remove("grabbing");
-    };
+    }
 
     carousel.addEventListener("mousedown", onMouseDown);
     carousel.addEventListener("mousemove", onMouseMove);
-    carousel.addEventListener("mouseup", onMouseUp);
-    carousel.addEventListener("mouseleave", onMouseLeave);
+    carousel.addEventListener("mouseup", endDrag);
+    carousel.addEventListener("mouseleave", endDrag);
 
     return () => {
       carousel.removeEventListener("mousedown", onMouseDown);
       carousel.removeEventListener("mousemove", onMouseMove);
-      carousel.removeEventListener("mouseup", onMouseUp);
-      carousel.removeEventListener("mouseleave", onMouseLeave);
+      carousel.removeEventListener("mouseup", endDrag);
+      carousel.removeEventListener("mouseleave", endDrag);
     };
   }, []);
 

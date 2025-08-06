@@ -9,30 +9,37 @@
   justify-content: center;
 }
 
-.about-container .title {
+.title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-.about-container .description {
-  width: 750px;
+.description {
+  max-width: 750px;
   font-size: 1.2rem;
   line-height: 1.6;
   margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.about-container .read-more-button {
+.read-more-button {
+  height: 55px;
+  width: 150px;
   background-color: var(--light-color);
   color: var(--primary-color);
   font-size: 1.2rem;
   font-weight: bold;
   border: none;
-  padding: 1rem 2.4rem;
-  border-radius: 10px;
-  transition: all 0.3s;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.about-container .read-more-button:hover {
-  background-color: var(--light-color);
+.read-more-button:hover,
+.read-more-button:focus {
+  background-color: var(--light-color-hover, #f0f0f0);
+  color: var(--primary-color);
+  outline: none;
 }
