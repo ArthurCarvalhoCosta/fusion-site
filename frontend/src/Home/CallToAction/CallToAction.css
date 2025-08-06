@@ -1,0 +1,47 @@
+.call-to-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  gap: 2rem;
+}
+
+.cta-content {
+  flex: 1;
+  margin: 60px;
+}
+
+.cta-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.cta-button {
+  height: 72px; width: 280px;
+  padding: 1.2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  display: inline-block;
+  background-color: var(--light-color);
+  color: var(--background-color);
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.cta-image-placeholder {
+  flex: 1;
+  height: 428px;
+  background-color: var(--light-color);
+  border-top-left-radius: 50%;
+  border-bottom-left-radius: 50%;
+}
