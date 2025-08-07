@@ -5,6 +5,7 @@
   background-color: var(--primary-color);
   color: var(--light-color);
   gap: 2rem;
+  margin: 2rem 0 0;
 }
 
 .cta-content {

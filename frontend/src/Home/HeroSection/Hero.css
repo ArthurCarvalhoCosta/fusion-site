@@ -46,7 +46,7 @@
   color: var(--light-color);
 }
 
-.cta-button {
+.button {
   width: 200px;
   height: 68px;
   background-color: var(--primary-color);
