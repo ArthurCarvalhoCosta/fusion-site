@@ -1,13 +1,14 @@
 import './Header.css'
 import logoImg from '../../assets/img/logo.png'
+import avatarImg from '../../assets/img/avatar.png'
 import { useEffect, useState } from 'react'
 
 export const Header = () => {
-  const [activeSection, setActiveSection] = useState(null) // Corrigido aqui
+  const [activeSection, setActiveSection] = useState(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const sections = document.querySelectorAll('section[id]')
-
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -16,14 +17,9 @@ export const Header = () => {
           }
         })
       },
-      {
-        root: null,
-        threshold: 0.6,
-      }
+      { root: null, threshold: 0.6 }
     )
-
     sections.forEach(section => observer.observe(section))
-
     return () => sections.forEach(section => observer.unobserve(section))
   }, [])
 
@@ -43,39 +39,67 @@ export const Header = () => {
     const elementPosition = element.getBoundingClientRect().top
     const offsetPosition = elementPosition + window.scrollY - headerOffset
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    })
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+    setIsMenuOpen(false)
   }
 
   return (
-    <header className="header-container">
-      <div className="logo">
-        <img
-          src={logoImg}
-          alt="Logo Fusion"
-          style={{ width: '48px', height: '48px' }}
-        />
-      </div>
+    <>
+      <header className="header-container">
+        <div className="logo">
+          <img src={logoImg} alt="Logo Fusion" />
+        </div>
 
-      <nav className="nav-menu">
-        {menuItems.map(item => (
-          <a
-            key={item.id}
-            className={`menu-item ${activeSection === item.id ? 'active' : ''}`}
-            href={`#${item.id}`}
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo(item.id)
-            }}
-          >
-            {item.label}
-          </a>
-        ))}
-      </nav>
+        <nav className="nav-menu">
+          {menuItems.map(item => (
+            <a
+              key={item.id}
+              className={`menu-item ${activeSection === item.id ? 'active' : ''}`}
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault()
+                handleScrollTo(item.id)
+              }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
 
-      <div className="profile-icon" />
-    </header>
+        <div className="profile-icon">
+          <img src={avatarImg} alt="Perfil" />
+        </div>
+
+        <div className="menu-toggle" onClick={() => setIsMenuOpen(true)}>
+          <span />
+          <span />
+          <span />
+        </div>
+      </header>
+
+      {isMenuOpen && <div className="overlay" onClick={() => setIsMenuOpen(false)} />}
+
+      <aside className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
+        <button className="close-btn" onClick={() => setIsMenuOpen(false)}>×</button>
+        <ul>
+          {menuItems.map(item => (
+            <li key={item.id}>
+              <a
+                href={`#${item.id}`}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleScrollTo(item.id)
+                }}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="mobile-profile">
+          <img src={avatarImg} alt="Perfil" />
+        </div>
+      </aside>
+    </>
   )
 }

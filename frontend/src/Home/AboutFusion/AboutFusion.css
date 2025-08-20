@@ -1,45 +1,50 @@
-.about-container {
+.about-fusion {
   background-color: var(--primary-color);
   color: var(--light-color);
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
 }
 
-.title {
-  font-size: 2rem;
+.about-fusion-content {
+  max-width: 900px;
+  width: 100%;
+}
+
+.about-fusion-title {
+  font-size: clamp(1.8rem, 2.5vw, 2.5rem);
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
-.description {
-  max-width: 750px;
-  font-size: 1.2rem;
+.about-fusion-description {
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
   line-height: 1.6;
   margin-bottom: 2rem;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.read-more-button {
+.about-fusion-button {
   height: 55px;
-  width: 150px;
+  padding: 0 2rem;
   background-color: var(--light-color);
   color: var(--primary-color);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: bold;
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition: transform 0.2s;
 }
 
-.read-more-button:hover,
-.read-more-button:focus {
-  background-color: var(--light-color-hover, #f0f0f0);
-  color: var(--primary-color);
+.about-fusion-button:hover,
+.about-fusion-button:focus {
+  transform: scale(1.05);
   outline: none;
+}
+
+@media (max-width: 480px) {
+  .about-fusion {
+    padding: 2rem 1rem;
+  }
 }

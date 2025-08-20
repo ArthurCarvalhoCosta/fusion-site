@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--primary-color);
+  background-color: #CC3326;
   color: var(--light-color);
   gap: 2rem;
   margin: 2rem 0 0;
@@ -10,23 +10,25 @@
 
 .cta-content {
   flex: 1;
-  margin: 60px;
+  margin: 2rem;
 }
 
 .cta-content h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .cta-content p {
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 1.3vw, 1.1rem);
   line-height: 1.6;
   margin-bottom: 2rem;
 }
 
 .cta-button {
-  height: 72px; width: 280px;
+  height: 72px;
+  width: 280px;
+  max-width: 100%;
   padding: 1.2rem;
   text-align: center;
   font-size: 1.2rem;
@@ -37,12 +39,31 @@
   border-radius: 12px;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
 .cta-image-placeholder {
   flex: 1;
-  height: 428px;
+  height: clamp(250px, 40vw, 428px);
   background-color: var(--light-color);
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
+}
+
+@media (max-width: 1024px) {
+  .call-to-action {
+    flex-direction: column;
+    text-align: center;
+    border-radius: 0;
+  }
+
+  .cta-content {
+    margin: 1.5rem 0;
+  }
+
+  .cta-image-placeholder {
+    width: 100%;
+    border-radius: 0;
+    height: 300px;
+  }
 }

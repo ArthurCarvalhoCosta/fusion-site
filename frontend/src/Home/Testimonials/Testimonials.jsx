@@ -1,37 +1,38 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Testimonials.css";
 import quoteImg from "../../assets/img/quote.png";
+import avatarPlaceholder from "../../assets/img/avatar.png"; 
 
 const testimonials = [
   {
     name: "Nome A",
     age: "Idade",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    avatar: avatarPlaceholder,
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     name: "Nome B",
     age: "Idade",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    avatar: avatarPlaceholder,
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     name: "Nome C",
     age: "Idade",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    avatar: avatarPlaceholder,
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     name: "Nome D",
     age: "Idade",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    avatar: avatarPlaceholder,
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
   {
     name: "Nome E",
     age: "Idade",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    avatar: avatarPlaceholder,
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   },
 ];
 
@@ -44,10 +45,14 @@ export const Testimonials = () => {
 
   useEffect(() => {
     const carousel = carouselRef.current;
-    const cardWidth = 450;
-    const gap = 50;
+    const firstCard = carousel.querySelector(".testimonial-card");
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.offsetWidth;
+    const gap = parseInt(getComputedStyle(carousel).gap) || 0;
     const cardIndex = 1;
     const containerWidth = carousel.offsetWidth;
+
     const scrollTo =
       Math.max(0, (cardWidth + gap) * cardIndex - containerWidth / 2 + cardWidth / 2);
     setTimeout(() => {
@@ -136,7 +141,11 @@ export const Testimonials = () => {
             className={`testimonial-card ${i === activeIndex ? "active" : ""}`}
           >
             <div className="testimonial-header">
-              <div className="testimonial-avatar" />
+              <img
+                src={t.avatar || avatarPlaceholder}
+                alt={`Foto de ${t.name}`}
+                className="testimonial-avatar"
+              />
               <div className="testimonial-info">
                 <p>{t.name}</p>
                 <p>{t.age}</p>

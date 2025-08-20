@@ -1,35 +1,38 @@
 .testimonials-section {
   text-align: center;
-  padding: 60px 0;
+  padding: 4rem 0;
   position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .testimonials-carousel {
   display: flex;
-  gap: 40px;
+  gap: 2.5rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding: 20px 50px;
+  padding: 2rem 3rem;
   cursor: grab;
   user-select: none;
 
   scroll-behavior: smooth;
-  scroll-padding-left: 50px;
-  scroll-padding-right: 50px;
+  scroll-padding-left: 3rem;
+  scroll-padding-right: 3rem;
   scrollbar-width: none;
 
   -webkit-mask-image: linear-gradient(
     to right,
-    transparent 0px,
-    var(--background-color) 50px,
-    var(--background-color) calc(100% - 50px),
+    transparent 0,
+    var(--background-color) 3rem,
+    var(--background-color) calc(100% - 3rem),
     transparent 100%
   );
   mask-image: linear-gradient(
     to right,
-    transparent 0px,
-    var(--background-color) 50px,
-    var(--background-color) calc(100% - 50px),
+    transparent 0,
+    var(--background-color) 3rem,
+    var(--background-color) calc(100% - 3rem),
     transparent 100%
   );
 }
@@ -45,10 +48,10 @@
 .testimonial-card {
   flex: 0 0 auto;
   height: 280px;
-  width: 420px;
+  width: min(90vw, 420px);
   background-color: var(--dark-color);
-  padding: 25px;
-  border-radius: 16px;
+  padding: 1.5rem;
+  border-radius: 1rem;
   scroll-snap-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   color: var(--light-color);
@@ -58,7 +61,7 @@
 }
 
 .testimonial-card.active {
-  transform: scale(1.1);
+  transform: scale(1.08);
   z-index: 1;
 }
 
@@ -66,22 +69,23 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 
 .testimonial-avatar {
-  width: 50px;
-  height: 50px;
+  width: 3rem;
+  height: 3rem;
   border: 2px solid var(--primary-color);
   border-radius: 50%;
-  margin-right: 16px;
+  margin-right: 1rem;
   background-color: var(--background-color);
+  flex-shrink: 0;
 }
 
 .testimonial-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.2rem;
   margin-right: auto;
   text-align: left;
 }
@@ -91,10 +95,11 @@
   line-height: 1.6;
   text-align: justify;
   user-select: none;
-  opacity: 75%;
+  opacity: 0.75;
 }
 
 .quote-icon {
-  width: 100px;
-  height: 70px;
+  width: 6rem;
+  height: auto;
+  max-height: 4rem;
 }

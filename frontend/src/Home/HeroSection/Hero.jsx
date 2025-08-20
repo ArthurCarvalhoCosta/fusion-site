@@ -5,7 +5,6 @@ export const HeroSection = () => {
   return (
     <section
       className="hero-container"
-      style={{ backgroundImage: `url(${heroImage})` }}
       id="Home"
       aria-label="Seção inicial com chamada para jornada saudável"
     >
@@ -18,7 +17,11 @@ export const HeroSection = () => {
             Crie sua ficha de treino personalizada e alcance seus objetivos com
             precisão. Simples, rápido e do seu jeito.
           </p>
-          <button className="button" aria-label="Comece agora sua jornada">
+          <button
+            className="button"
+            type="button"
+            aria-label="Comece agora sua jornada"
+          >
             Comece Agora
           </button>
         </div>

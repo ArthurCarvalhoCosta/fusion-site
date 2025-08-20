@@ -20,9 +20,7 @@ export const CallToAction = () => {
           Chamar no WhatsApp
         </a>
       </div>
-      <div className="cta-image-placeholder">
-        {/* colocar a imagem quando estiver pronta */}
-      </div>
+      <div className="cta-image-placeholder"></div>
     </section>
   );
 };

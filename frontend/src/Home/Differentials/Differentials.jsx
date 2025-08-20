@@ -1,5 +1,5 @@
-import './Differentials.css'
-import checkIcon from '../../assets/img/check.png'
+import './Differentials.css';
+import checkIcon from '../../assets/img/check.png';
 
 const items = [
   {
@@ -22,12 +22,12 @@ const items = [
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
-]
+];
 
 export const Differentials = () => {
   return (
     <section
-      className="differentials-container"
+      className="fusion-differentials"
       id="differentials"
       aria-label="Diferenciais da Fusion"
     >
@@ -38,17 +38,18 @@ export const Differentials = () => {
           <span className="highlight">Fusion</span>
         </h2>
       </div>
-      <div className="items-grid">
+
+      <div className="fusion-differentials-grid">
         {items.map((item, index) => (
-          <article className="item-card" key={index}>
-            <div className="icon-wrapper">
+          <article className="fusion-differentials-card" key={index}>
+            <div className="fusion-differentials-icon">
               <img src={checkIcon} alt="Ícone de verificação" />
             </div>
-            <h3 className="item-title">{item.title}</h3>
-            <p className="item-description">{item.description}</p>
+            <h3 className="fusion-differentials-item-title">{item.title}</h3>
+            <p className="fusion-differentials-item-description">{item.description}</p>
           </article>
         ))}
       </div>
     </section>
-  )
-}
+  );
+};

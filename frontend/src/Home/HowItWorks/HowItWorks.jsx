@@ -10,10 +10,17 @@ export const HowItWorks = () => {
           <span className="highlight">Funciona</span>
         </h2>
       </div>
-      <div className="video-placeholder" role="region" aria-label="Vídeo explicativo">
-        <button className="play-button" aria-label="Reproduzir vídeo" title="Reproduzir vídeo">
-          ▶
-        </button>
+
+      <div className="video-wrapper" role="region" aria-label="Vídeo explicativo">
+        <div className="video-placeholder">
+          <button
+            className="play-button"
+            aria-label="Reproduzir vídeo"
+            title="Reproduzir vídeo"
+          >
+            ▶
+          </button>
+        </div>
       </div>
     </section>
   );
