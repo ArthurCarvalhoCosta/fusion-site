@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Testimonials.css";
-import quoteImg from "../../assets/img/quote.png";
-import avatarPlaceholder from "../../assets/img/avatar.png"; 
+import quoteImg from "../../../../assets/img/quote.png";
+import avatarPlaceholder from "../../../../assets/img/avatar.png"; 
 
 const testimonials = [
   {

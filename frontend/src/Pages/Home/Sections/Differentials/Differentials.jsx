@@ -1,5 +1,5 @@
 import './Differentials.css';
-import checkIcon from '../../assets/img/check.png';
+import checkIcon from '../../../../assets/img/check.png';
 
 const items = [
   {

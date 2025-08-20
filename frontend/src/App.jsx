@@ -1,4 +1,4 @@
-import { Home } from './Home/Home.jsx'
+import { Home } from './Pages/Home/Home.jsx'
 import './App.css'
 import './index.css'
 
