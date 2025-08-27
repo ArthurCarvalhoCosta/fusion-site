@@ -8,7 +8,7 @@ import { Testimonials } from './Sections/Testimonials/Testimonials.jsx'
 import { Contact } from './Sections/Contact/Contact.jsx'
 import { CallToAction } from './Sections/CallToAction/CallToAction.jsx'
 
-export const Home = () => {
+const Home = () => {
   return (
     <>
       <Header />
@@ -23,3 +23,5 @@ export const Home = () => {
     </>
   )
 }
+
+export default Home;

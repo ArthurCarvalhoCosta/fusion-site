@@ -39,6 +39,7 @@
   max-width: 520px;
   margin-bottom: 2rem;
   color: var(--light-color);
+  opacity: 75%;
 }
 
 .button {
