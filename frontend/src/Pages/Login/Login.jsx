@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import Carousel from "./Carousel/Carousel";
 import "./Login.css";
 
@@ -12,44 +13,59 @@ const Login = () => {
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mensagem, setMensagem] = useState("");
+  const [mostrarMensagem, setMostrarMensagem] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setMensagem("");
+    setMostrarMensagem(false);
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // 🔑 aqui corrigimos: backend espera "senha"
         body: JSON.stringify({ email, senha }),
       });
 
       const data = await response.json();
-      setLoading(false);
 
       if (!response.ok) {
-        setMensagem(data.erro || "Erro desconhecido");
+        mostrarErro(data.erro || data.message || "Erro desconhecido");
       } else {
+        // salva usuário no localStorage
         localStorage.setItem("usuario", JSON.stringify(data.cliente));
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (err) {
-      console.error(err);
-      setMensagem("Erro ao conectar com o servidor");
+      console.error("Erro ao conectar com o backend:", err);
+      mostrarErro("Não foi possível conectar ao servidor");
+    } finally {
       setLoading(false);
     }
   };
 
+  const mostrarErro = (texto) => {
+    setMensagem(texto);
+    setMostrarMensagem(true);
+    setTimeout(() => setMostrarMensagem(false), 3000);
+  };
+
   return (
     <div className="login-page">
+      {/* Lado esquerdo - Carousel */}
       <div className="login-carousel">
         <Carousel />
       </div>
+
+      {/* Lado direito - Formulário */}
       <div className="login-form">
         <h2>Entre em sua conta</h2>
+
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -80,17 +96,24 @@ const Login = () => {
           </div>
 
           <div className="login-options">
-            <label>
-              <input type="checkbox" /> Lembrar de mim
+            <label className="checkbox">
+              <input type="checkbox" />
+              <span className="checkbox-box" aria-hidden="true"></span>
+              Lembrar de mim
             </label>
+
             <a href="/reset-password">Esqueci minha senha</a>
           </div>
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="submit">
             {loading ? "Entrando..." : "Entrar"}
           </button>
 
-          {mensagem && <p className="mensagem">{mensagem}</p>}
+          {mensagem && (
+            <div className={`mensagem ${mostrarMensagem ? "entrar" : "sair"}`}>
+              {mensagem}
+            </div>
+          )}
 
           <div className="divider">
             <span>ou entre com</span>

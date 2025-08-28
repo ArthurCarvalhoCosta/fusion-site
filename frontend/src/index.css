@@ -17,6 +17,11 @@
   box-sizing: border-box;
 }
 
+*::selection {
+  background-color: var(--primary-color);
+  color: var(--light-color);
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
