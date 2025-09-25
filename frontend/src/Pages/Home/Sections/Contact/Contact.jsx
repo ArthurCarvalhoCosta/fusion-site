@@ -1,7 +1,7 @@
 import React from "react";
 import "./Contact.css";
 import { FaCheck } from "react-icons/fa";
-import botImg from "../../../../assets/img/botImg.png";
+import botImg from "@/assets/img/botImg.png";
 
 export const Contact = () => {
   return (

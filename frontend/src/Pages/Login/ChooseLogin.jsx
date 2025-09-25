@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./ChooseLogin.css";
 
-import { Header } from "../../components/Header/Header.jsx";
-import { Footer } from "../../components/Footer/Footer.jsx";
+import { Header } from "@/components/Header/Header.jsx";
+import { Footer } from "@/components/Footer/Footer.jsx";
 
-import { ReactComponent as AdminIcon } from "../../assets/icons/admin.svg";
-import { ReactComponent as PersonalIcon } from "../../assets/icons/trainer.svg";
-import { ReactComponent as AlunoIcon } from "../../assets/icons/student.svg";
+import AdminIcon from "@/assets/icons/admin.svg";
+import PersonalIcon from "@/assets/icons/trainer.svg";
+import AlunoIcon from "@/assets/icons/student.svg";
 
 const ChooseLogin = () => {
   const navigate = useNavigate();

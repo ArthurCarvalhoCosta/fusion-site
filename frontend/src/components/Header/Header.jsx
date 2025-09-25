@@ -1,6 +1,6 @@
 import './Header.css'
-import logoImg from '../../assets/img/logo.png'
-import avatarImg from '../../assets/img/avatar.png'
+import logoImg from '@/assets/img/logo.png'
+import avatarImg from '@/assets/img/avatar.png'
 import { useEffect, useState } from 'react'
 
 export const Header = () => {

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
-import EyeOpenIcon from "../../assets/icons/olho-aberto.svg";
-import EyeClosedIcon from "../../assets/icons/olho-fechado.svg";
+import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
+import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
 export default function LoginForm({
   apiBase = "http://localhost:5000",

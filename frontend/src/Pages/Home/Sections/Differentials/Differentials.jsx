@@ -1,9 +1,9 @@
 import './Differentials.css';
 
-import treinoIcon from "@/assets/img/treinoIcon.png";
-import equipeIcon from "@/assets/img/equipeIcon.png";
-import ambienteIcon from "@/assets/img/ambienteIcon.png";
-import resultadoIcon from "@/assets/img/resultadoIcon.png";
+import treinoIcon from "@/assets/img/check.png";
+import equipeIcon from "@/assets/img/check.png";
+import ambienteIcon from "@/assets/img/check.png";
+import resultadoIcon from "@/assets/img/check.png";
 
 const items = [
   {
