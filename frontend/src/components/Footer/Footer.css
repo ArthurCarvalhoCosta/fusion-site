@@ -6,7 +6,6 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 2rem;
-  border-top: 2px solid var(--primary-color);
   width: 100%;
   box-sizing: border-box;
 }

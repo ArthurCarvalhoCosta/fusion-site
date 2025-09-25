@@ -5,34 +5,29 @@ import avatarPlaceholder from "../../../../assets/img/avatar.png";
 
 const testimonials = [
   {
-    name: "Nome A",
-    age: "Idade",
+    name: "Vanessa Romeiro",
     avatar: avatarPlaceholder,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    text: "Sou mãe de uma aluna da fusion...pensa em um lugar de energias boas, pessoas que se dispõe a ajudar, ensinar, me surpreendo a cada dia a cada treino só gratidão",
   },
   {
-    name: "Nome B",
-    age: "Idade",
+    name: "Dayanne Cristiny Arantes Nascimento",
     avatar: avatarPlaceholder,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    text: "Me sinto segura, motivada e muito bem acompanhada em cada etapa.",
   },
   {
-    name: "Nome C",
-    age: "Idade",
+    name: "Marco Aurélio da Silva",
     avatar: avatarPlaceholder,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    text: " Parabéns a todos da fuison. Super indico como a melhor academia. Oss 🥋",
   },
   {
-    name: "Nome D",
-    age: "Idade",
+    name: "Cleu Aguiar",
     avatar: avatarPlaceholder,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    text: "Lugar perfeito , professores incríveis. Lugar amplo que nos deixa muito satisfeito a cada treino . Amo os treinos e amo o lugar . Se tiver a oportunidade venha conhecer minha o local ❤️❤️",
   },
   {
-    name: "Nome E",
-    age: "Idade",
+    name: "marcelo santana silva",
     avatar: avatarPlaceholder,
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    text: "Galera!!Já treino a 1 ano com o pessoal da Fusion, em especial Boxe e jiu jitsu ,tbm tem treino de Funcional, lugar top pra quem está procurando um ambiente pra treinar...ambiente familiar pessoas legais eu recomendo.",
   },
 ];
 

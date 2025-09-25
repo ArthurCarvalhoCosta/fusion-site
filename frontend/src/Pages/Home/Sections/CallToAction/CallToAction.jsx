@@ -12,7 +12,7 @@ export const CallToAction = () => {
           Fale com a gente e tire suas dúvidas agora mesmo!
         </p>
         <a
-          href="https://wa.me/11912721511"
+          href="https://wa.me/11920568298"
           target="_blank"
           rel="noopener noreferrer"
           className="cta-button"

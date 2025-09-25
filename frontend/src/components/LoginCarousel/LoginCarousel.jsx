@@ -2,11 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./Carousel.css";
+import "./LoginCarousel.css";
 
-import img1 from "../../../assets/img/imageLogin1.png";
-import img2 from "../../../assets/img/imageLogin2.png";
-import img3 from "../../../assets/img/imageLogin3.png";
+import img1 from "../../assets/img/imageLogin1.png";
+import img2 from "../../assets/img/imageLogin2.png";
+import img3 from "../../assets/img/imageLogin3.png";
 
 const Carousel = () => {
   const settings = {
