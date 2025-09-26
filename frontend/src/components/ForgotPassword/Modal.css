@@ -17,17 +17,6 @@
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
 }
-.modal-close {
-  position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  background: transparent;
-  color: var(--primary-color);
-  border: none;
-  font-size: 1.4rem;
-  cursor:pointer;
-  line-height: 1;
-}
 .modal-content h3 {
   margin: 0 0 12px 0;
   font-size: 1.25rem;
@@ -105,6 +94,20 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
   border-color: var(--primary-color);
+}
+
+.modal-content .modal-close {
+  position: absolute;
+  top: 0;
+  right: 0.4rem;
+  color: var(--primary-color);
+  background: none;
+  box-shadow: none;
+  border: none;
+  font-size: 2.4rem;
+  font-weight: normal;
+  cursor:pointer;
+  line-height: 1;
 }
 
 .modal-content .password-wrapper {
