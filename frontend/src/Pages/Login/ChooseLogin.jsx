@@ -24,7 +24,7 @@ const ChooseLogin = () => {
     {
       key: "trainer",
       nome: "Personal Trainer",
-      descricao: "Acompanhe treinos e agende sessões com seus alunos.",
+      descricao: "Acompanhe facilmente treinos e agende sessões com seus alunos.",
       icone: PersonalIcon,
       rota: "/login/trainer",
     },
@@ -43,7 +43,6 @@ const ChooseLogin = () => {
   };
 
   const handleCardKey = (e, rota) => {
-    // abre a rota ao pressionar Enter ou Space quando o card estiver focado
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       navigate(rota);
@@ -73,10 +72,11 @@ const ChooseLogin = () => {
               aria-labelledby={`type-${tipo.key}-title`}
               onKeyDown={(e) => handleCardKey(e, tipo.rota)}
             >
+              {/* usando IMG (compatível com seu bundler) */}
               <img
                 src={tipo.icone}
                 alt={`${tipo.nome} ícone`}
-                className="type-login-icon svg-icon"
+                className="type-login-icon"
                 aria-hidden="false"
               />
 

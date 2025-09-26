@@ -8,22 +8,22 @@ import resultadoIcon from "@/assets/img/check.png";
 const items = [
   {
     title: 'Treinos completos',
-    description: 'Funcional + lutas em um só lugar.',
+    description: 'Funcional e artes marciais combinados para um desempenho completo.',
     icon: treinoIcon,
   },
   {
     title: 'Equipe qualificada',
-    description: 'Professores experientes e certificados.',
+    description: 'Instrutores certificados, preparados para orientar você com segurança.',
     icon: equipeIcon,
   },
   {
     title: 'Ambiente acolhedor',
-    description: 'Clima familiar, respeitoso e motivador.',
+    description: 'Atmosfera respeitosa e familiar, perfeita para seu desenvolvimento.',
     icon: ambienteIcon,
   },
   {
     title: 'Resultados reais',
-    description: 'Foco em evolução física e mental.',
+    description: 'Concentre-se no progresso físico e mental, passo a passo.',
     icon: resultadoIcon,
   },
 ];

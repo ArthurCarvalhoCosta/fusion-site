@@ -26,12 +26,14 @@
 }
 
 .fusion-differentials-icon {
-  width: 104px;
-  height: 104px;
+  width: 116px;
+  height: 116px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
 }
 
 .fusion-differentials-icon img {

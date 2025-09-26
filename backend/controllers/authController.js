@@ -1,4 +1,3 @@
-// backend/controllers/authController.js
 const Cliente = require("../models/Cliente");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -31,30 +30,21 @@ exports.cadastro = async (req, res) => {
   }
 };
 
-// LOGIN robusto (corrigido para evitar redeclaração de variáveis)
+// LOGIN
 exports.login = async (req, res) => {
   try {
     const { email, senha } = req.body;
-
-    // log leve para debug (não logue senhas em produção)
-    console.log("[LOGIN] payload:", { email, senha: senha ? "****" : undefined });
-
     if (!email || !senha) {
       return res.status(400).json({ success: false, message: "Preencha email e senha" });
     }
 
-    // buscar usuário
     const usuario = await Cliente.findOne({ email }).lean();
-    if (!usuario) {
-      console.warn("[LOGIN] usuário não encontrado:", email);
-      return res.status(404).json({ success: false, message: "Usuário não encontrado" });
-    }
+    if (!usuario) return res.status(404).json({ success: false, message: "Usuário não encontrado" });
 
-    // suporta diferentes nomes de campo no DB
     const senhaHashFromDb = usuario.senha_hash ?? usuario.senha ?? usuario.password;
     if (!senhaHashFromDb) {
       console.error("[LOGIN] usuário sem campo de senha esperado. Usuário:", usuario);
-      return res.status(500).json({ success: false, message: "Erro interno: credenciais do usuário inválidas" });
+      return res.status(500).json({ success: false, message: "Erro interno: credenciais inválidas" });
     }
 
     const senhaValida = await bcrypt.compare(String(senha), String(senhaHashFromDb));
@@ -70,13 +60,12 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: usuario._id, role: usuario.role ?? "user" }, secret, { expiresIn: "1h" });
 
-    // remover campos sensíveis antes de devolver
     const {
       senha_hash,
       password,
       resetCodigo,
-      resetToken,
       resetCodigoExp,
+      resetToken,
       resetTokenExp,
       ...safeUser
     } = usuario;
@@ -88,7 +77,7 @@ exports.login = async (req, res) => {
   }
 };
 
-// --- Enviar código de 6 dígitos para o email ---
+// Enviar código de 6 dígitos
 exports.enviarCodigo = async (req, res) => {
   try {
     const { email } = req.body;
@@ -97,14 +86,12 @@ exports.enviarCodigo = async (req, res) => {
     const cliente = await Cliente.findOne({ email });
     if (!cliente) return res.status(404).json({ success: false, message: "Email não cadastrado" });
 
-    // gerar código 6 dígitos
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();
 
     cliente.resetCodigo = codigo;
     cliente.resetCodigoExp = Date.now() + 15 * 60 * 1000; // 15 minutos
     await cliente.save();
 
-    // enviar email
     const mailOptions = {
       from: `"${process.env.EMAIL_SENDER_NAME || "Fusion Site"}" <${process.env.EMAIL_USER}>`,
       to: email,
@@ -113,9 +100,9 @@ exports.enviarCodigo = async (req, res) => {
       html: `<p>Seu código de recuperação é: <b>${codigo}</b></p><p>Válido por 15 minutos.</p>`,
     };
 
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions); // pode lançar erro se mailer não configurado
 
-    // opcional: logar o código em dev para facilitar (remova em produção)
+    // log em dev para facilitar
     console.log(`[ENVIAR-CODIGO] código para ${email}: ${codigo}`);
 
     return res.json({ success: true, message: "Código enviado para o e-mail" });
@@ -125,12 +112,13 @@ exports.enviarCodigo = async (req, res) => {
   }
 };
 
-// --- Resetar senha usando código ---
+// Resetar senha usando código — suporta "validação only" quando novaSenha estiver ausente/''.
 exports.resetComCodigo = async (req, res) => {
   try {
     const { email, codigo, novaSenha } = req.body;
-    if (!email || !codigo || !novaSenha) return res.status(400).json({ success: false, message: "Dados incompletos" });
+    if (!email || !codigo) return res.status(400).json({ success: false, message: "Dados incompletos" });
 
+    // busca cliente com código não expirado
     const cliente = await Cliente.findOne({
       email,
       resetCodigo: codigo,
@@ -139,6 +127,12 @@ exports.resetComCodigo = async (req, res) => {
 
     if (!cliente) return res.status(400).json({ success: false, message: "Código inválido ou expirado" });
 
+    // Se novaSenha não foi informada (ou vazia), apenas validamos o código
+    if (!novaSenha) {
+      return res.json({ success: true, message: "Código válido" });
+    }
+
+    // Se novaSenha presente, atualiza senha
     cliente.senha_hash = await bcrypt.hash(novaSenha, 10);
     cliente.resetCodigo = undefined;
     cliente.resetCodigoExp = undefined;

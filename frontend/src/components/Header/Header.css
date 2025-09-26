@@ -73,6 +73,40 @@
   border-radius: 2px;
 }
 
+.profile-action {
+  display: flex;
+  align-items: center;
+}
+
+.btn-entrar-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: #fff;
+  background: var(--primary-color);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+.btn-entrar-header:hover,
+.btn-entrar-header:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.30);
+  outline: none;
+}
+
+.btn-entrar-header.mobile {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .mobile-menu {
   position: fixed;
   top: 0;
@@ -159,5 +193,11 @@
   .logo img {
     width: 40px;
     height: 40px;
+  }
+}
+
+@media (max-width: 960px) {
+  .profile-icon {
+    display: none;
   }
 }

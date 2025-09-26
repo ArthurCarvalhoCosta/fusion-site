@@ -7,8 +7,8 @@ import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
 import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
 // modais (assumindo local abaixo de src/components/)
-import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
-import ResetPasswordModal from "../ResetPasswordModal/ResetPasswordModal";
+import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
+import ResetPasswordModal from "../ForgotPassword/ResetPasswordModal";
 
 export default function LoginForm({
   apiBase = "http://localhost:5000",
