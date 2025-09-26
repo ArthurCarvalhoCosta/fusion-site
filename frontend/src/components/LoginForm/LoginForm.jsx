@@ -1,3 +1,4 @@
+// src/components/LoginForm/LoginForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
@@ -5,11 +6,15 @@ import "./LoginForm.css";
 import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
 import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
+// modais (assumindo local abaixo de src/components/)
+import ForgotPasswordModal from "../ForgotPasswordModal/ForgotPasswordModal";
+import ResetPasswordModal from "../ResetPasswordModal/ResetPasswordModal";
+
 export default function LoginForm({
   apiBase = "http://localhost:5000",
   apiPath = "/api/auth/login",
   redirectTo = "/",
-  userType = "Aluno", // novo
+  userType = "Aluno",
   onSuccess,
 }) {
   const [email, setEmail] = useState("");
@@ -18,6 +23,11 @@ export default function LoginForm({
   const [mensagem, setMensagem] = useState("");
   const [mostrarMensagem, setMostrarMensagem] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // modais
+  const [openForgot, setOpenForgot] = useState(false);
+  const [openReset, setOpenReset] = useState(false);
+  const [presetEmail, setPresetEmail] = useState("");
 
   const navigate = useNavigate();
 
@@ -57,6 +67,19 @@ export default function LoginForm({
     }
   };
 
+  // handlers para modais
+  const handleOpenForgot = (e) => {
+    if (e) e.preventDefault();
+    setOpenForgot(true);
+  };
+
+  // chamado pelo ForgotPasswordModal quando o envio for bem sucedido
+  const handleKodSent = (sentEmail) => {
+    setOpenForgot(false);
+    setPresetEmail(sentEmail || "");
+    setOpenReset(true);
+  };
+
   return (
     <div className={`login-form-component ${userType.toLowerCase()}`}>
       <h2>Entrar como {userType}</h2>
@@ -84,6 +107,7 @@ export default function LoginForm({
             type="button"
             className="toggle-password"
             onClick={() => setMostrarSenha(!mostrarSenha)}
+            aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
           >
             <img
               src={mostrarSenha ? EyeClosedIcon : EyeOpenIcon}
@@ -98,7 +122,9 @@ export default function LoginForm({
             <span className="checkbox-box" aria-hidden="true"></span>
             Lembrar de mim
           </label>
-          <a href="/reset-password" className="forgot-link">Esqueci minha senha</a>
+
+          {/* abre o modal de recuperar senha */}
+          <a href="#" onClick={handleOpenForgot} className="forgot-link">Esqueci minha senha</a>
         </div>
 
         <button type="submit" disabled={loading} className="submit">
@@ -111,6 +137,21 @@ export default function LoginForm({
           </div>
         )}
       </form>
+
+      {/* Modais */}
+      <ForgotPasswordModal
+        open={openForgot}
+        onClose={() => setOpenForgot(false)}
+        apiBase={apiBase}
+        onSent={(emailSent) => handleKodSent(emailSent)}
+      />
+
+      <ResetPasswordModal
+        open={openReset}
+        onClose={() => setOpenReset(false)}
+        apiBase={apiBase}
+        presetEmail={presetEmail}
+      />
     </div>
   );
 }
