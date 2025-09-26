@@ -11,7 +11,7 @@ import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
 import ResetPasswordModal from "../ForgotPassword/ResetPasswordModal";
 
 export default function LoginForm({
-  apiBase = "http://localhost:5000",
+  apiBase = process.env.REACT_APP_API_BASE || "http://localhost:5000",
   apiPath = "/api/auth/login",
   redirectTo = "/",
   userType = "Aluno",
