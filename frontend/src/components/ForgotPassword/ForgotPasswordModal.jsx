@@ -13,7 +13,7 @@ export default function ForgotPasswordModal({ open, onClose, apiBase = "http://l
     setLoading(true);
     setAlertMsg("");
     try {
-      const res = await fetch(`${apiBase}/api/auth/recuperar-senha`, {
+      const res = await fetch(`${apiBase}/api/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: String(email).trim() }),

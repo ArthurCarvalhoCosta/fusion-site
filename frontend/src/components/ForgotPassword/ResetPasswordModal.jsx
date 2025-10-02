@@ -51,7 +51,7 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
     setLoading(true);
     setAlertMsg("");
     try {
-      const res = await fetch(`${apiBase}/api/auth/reset-senha`, {
+      const res = await fetch(`${apiBase}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // NOT sending novaSenha => backend will only validate
@@ -86,7 +86,7 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
     const codigoSanitizado = codigo.replace(/\D/g, "").trim();
 
     try {
-      const res = await fetch(`${apiBase}/api/auth/reset-senha`, {
+      const res = await fetch(`${apiBase}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: presetEmail, codigo: codigoSanitizado, novaSenha }),

@@ -1,11 +1,11 @@
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
 const authRoutes = require('./routes/auth');
+const usersRoutes = require('./routes/users');
 
 const app = express();
 
@@ -19,12 +19,13 @@ app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Views (se você usa forgot-password.ejs / reset-password.ejs
+// Views
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Rotas
 app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -54,7 +55,7 @@ process.on('unhandledRejection', (reason, promise) => {
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception thrown:', err);
   // opcional: fechar servidor de forma segura
-  // server.close(() => process.exit(1));
+  server.close(() => process.exit(1));
 });
 
 module.exports = app;

@@ -1,146 +1,120 @@
-const Cliente = require("../models/Cliente");
+// backend/controllers/authController.js
+const User = require("../models/User"); // novo model (users.js)
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const transporter = require("../utils/mailer");
-
-// Cadastro
-exports.cadastro = async (req, res) => {
-  try {
-    const { nome, email, senha } = req.body;
-    if (!nome || !email || !senha)
-      return res.status(400).json({ success: false, message: "Preencha todos os campos" });
-
-    const usuarioExistente = await Cliente.findOne({ email });
-    if (usuarioExistente)
-      return res.status(400).json({ success: false, message: "Email já cadastrado" });
-
-    const senha_hash = await bcrypt.hash(senha, 10);
-    const novoCliente = new Cliente({ nome, email, senha_hash });
-    await novoCliente.save();
-
-    res.status(201).json({
-      success: true,
-      message: "Cadastro realizado com sucesso",
-      cliente: { id: novoCliente._id, nome, email }
-    });
-  } catch (err) {
-    console.error("[CADASTRO] erro:", err);
-    res.status(500).json({ success: false, message: "Erro no servidor", detalhe: err.message });
-  }
-};
+const transporter = require("../utils/mailer"); // ajuste path se necessário
 
 // LOGIN
 exports.login = async (req, res) => {
   try {
-    const { email, senha } = req.body;
-    if (!email || !senha) {
-      return res.status(400).json({ success: false, message: "Preencha email e senha" });
+    const { email, senha, userType } = req.body;
+    if (!email || !senha) return res.status(400).json({ success: false, message: "Preencha email e senha" });
+
+    const user = await User.findOne({ email }).lean();
+    if (!user) return res.status(404).json({ success: false, message: "Usuário não encontrado" });
+
+    // Verifica tipo de usuário
+    if (user.tipo !== userType) {
+      return res.status(403).json({ success: false, message: `Acesso negado para este tipo de usuário: ${user.tipo}` });
     }
 
-    const usuario = await Cliente.findOne({ email }).lean();
-    if (!usuario) return res.status(404).json({ success: false, message: "Usuário não encontrado" });
+    const senhaValida = await bcrypt.compare(String(senha), String(user.senha_hash));
+    if (!senhaValida) return res.status(401).json({ success: false, message: "Senha incorreta" });
 
-    const senhaHashFromDb = usuario.senha_hash ?? usuario.senha ?? usuario.password;
-    if (!senhaHashFromDb) {
-      console.error("[LOGIN] usuário sem campo de senha esperado. Usuário:", usuario);
-      return res.status(500).json({ success: false, message: "Erro interno: credenciais inválidas" });
-    }
+    const token = jwt.sign({ id: user._id, tipo: user.tipo }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    const senhaValida = await bcrypt.compare(String(senha), String(senhaHashFromDb));
-    if (!senhaValida) {
-      return res.status(401).json({ success: false, message: "Senha incorreta" });
-    }
-
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      console.error("[LOGIN] JWT_SECRET não definido no .env");
-      return res.status(500).json({ success: false, message: "Erro do servidor: configuração inválida" });
-    }
-
-    const token = jwt.sign({ id: usuario._id, role: usuario.role ?? "user" }, secret, { expiresIn: "1h" });
-
-    const {
-      senha_hash,
-      password,
-      resetCodigo,
-      resetCodigoExp,
-      resetToken,
-      resetTokenExp,
-      ...safeUser
-    } = usuario;
-
-    return res.json({ success: true, message: "Login realizado com sucesso", cliente: safeUser, token });
+    const { senha_hash, resetCodigo, resetCodigoExp, ...safeUser } = user;
+    res.json({ success: true, message: "Login realizado", cliente: safeUser, token });
   } catch (err) {
-    console.error("[LOGIN] erro:", err);
-    return res.status(500).json({ success: false, message: "Erro no servidor", detalhe: err.message });
+    console.error(err);
+    res.status(500).json({ success: false, message: "Erro no servidor" });
   }
 };
 
-// Enviar código de 6 dígitos
-exports.enviarCodigo = async (req, res) => {
+
+// RECEBER CODIGO
+exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ success: false, message: "Informe o email" });
 
-    const cliente = await Cliente.findOne({ email });
-    if (!cliente) return res.status(404).json({ success: false, message: "Email não cadastrado" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ success: false, message: "Email não cadastrado" });
 
+    // gera código de 6 dígitos
     const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiryMinutes = 15;
 
-    cliente.resetCodigo = codigo;
-    cliente.resetCodigoExp = Date.now() + 15 * 60 * 1000; // 15 minutos
-    await cliente.save();
+    user.resetCodigo = codigo;
+    user.resetCodigoExp = Date.now() + expiryMinutes * 60 * 1000; // 15 minutos
+    await user.save();
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?email=${encodeURIComponent(email)}&codigo=${codigo}`;
 
     const mailOptions = {
       from: `"${process.env.EMAIL_SENDER_NAME || "Fusion Site"}" <${process.env.EMAIL_USER}>`,
       to: email,
-      subject: "Código de recuperação de senha",
-      text: `Seu código de recuperação é: ${codigo}. Válido por 15 minutos.`,
-      html: `<p>Seu código de recuperação é: <b>${codigo}</b></p><p>Válido por 15 minutos.</p>`,
+      subject: "Redefinição de senha",
+      text: `Olá ${user.nome || ""},
+
+        Recebemos uma solicitação para redefinir a senha da sua conta.
+
+        Seu código de recuperação é: ${codigo}
+        Expira em ${expiryMinutes} minutos.
+
+        Se você não solicitou, ignore este e-mail.
+
+        Equipe ${process.env.EMAIL_SENDER_NAME || "Fusion Site"}
+        `,
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #333;">
+          <h2>Redefinição de senha</h2>
+          <p>Olá <strong>${user.nome || ""}</strong>,</p>
+          <p>Recebemos uma solicitação para redefinir a senha da sua conta.</p>
+          <p style="font-size: 1.2rem;">Código de recuperação: <strong>${codigo}</strong></p>
+          <p>Este código expira em <strong>${expiryMinutes} minutos</strong> e só pode ser usado uma vez.</p>
+          <p>Se você não solicitou esta alteração, simplesmente ignore este e-mail.</p>
+          <p>Atenciosamente,<br/>Equipe ${process.env.EMAIL_SENDER_NAME || "Fusion Site"}</p>
+        </div>
+      `
     };
 
-    await transporter.sendMail(mailOptions); // pode lançar erro se mailer não configurado
-
-    // log em dev para facilitar
-    console.log(`[ENVIAR-CODIGO] código para ${email}: ${codigo}`);
+    try {
+      await transporter.sendMail(mailOptions);
+      if (process.env.NODE_ENV !== "production") {
+        console.log(`[auth.forgotPassword] código para ${email}: ${codigo}`);
+      }
+    } catch (mailErr) {
+      console.error("auth.forgotPassword - erro ao enviar email:", mailErr);
+      return res.status(500).json({ success: false, message: "Falha ao enviar o email. Tente novamente mais tarde." });
+    }
 
     return res.json({ success: true, message: "Código enviado para o e-mail" });
   } catch (err) {
-    console.error("enviarCodigo:", err);
-    return res.status(500).json({ success: false, message: "Erro ao enviar código" });
+    console.error("auth.forgotPassword erro:", err);
+    return res.status(500).json({ success: false, message: "Erro no servidor" });
   }
 };
 
-// Resetar senha usando código — suporta "validação only" quando novaSenha estiver ausente/''.
-exports.resetComCodigo = async (req, res) => {
+// RESET DE SENHA
+exports.resetPassword = async (req, res) => {
   try {
     const { email, codigo, novaSenha } = req.body;
     if (!email || !codigo) return res.status(400).json({ success: false, message: "Dados incompletos" });
 
-    // busca cliente com código não expirado
-    const cliente = await Cliente.findOne({
-      email,
-      resetCodigo: codigo,
-      resetCodigoExp: { $gt: Date.now() }
-    });
+    const user = await User.findOne({ email, resetCodigo: codigo, resetCodigoExp: { $gt: Date.now() } });
+    if (!user) return res.status(400).json({ success: false, message: "Código inválido ou expirado" });
 
-    if (!cliente) return res.status(400).json({ success: false, message: "Código inválido ou expirado" });
+    if (!novaSenha) return res.json({ success: true, message: "Código válido" });
 
-    // Se novaSenha não foi informada (ou vazia), apenas validamos o código
-    if (!novaSenha) {
-      return res.json({ success: true, message: "Código válido" });
-    }
+    user.senha_hash = await bcrypt.hash(String(novaSenha), 10);
+    user.resetCodigo = undefined;
+    user.resetCodigoExp = undefined;
+    await user.save();
 
-    // Se novaSenha presente, atualiza senha
-    cliente.senha_hash = await bcrypt.hash(novaSenha, 10);
-    cliente.resetCodigo = undefined;
-    cliente.resetCodigoExp = undefined;
-    await cliente.save();
-
-    return res.json({ success: true, message: "Senha alterada com sucesso" });
+    res.json({ success: true, message: "Senha alterada com sucesso" });
   } catch (err) {
-    console.error("resetComCodigo:", err);
-    return res.status(500).json({ success: false, message: "Erro ao alterar senha" });
+    console.error(err);
+    res.status(500).json({ success: false, message: "Erro no servidor" });
   }
 };
