@@ -1,4 +1,4 @@
-// src/components/LoginForm/LoginForm.jsx
+// frontend/src/components/LoginForm/LoginForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
@@ -6,7 +6,6 @@ import "./LoginForm.css";
 import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
 import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
-// modais (assumindo local abaixo de src/components/)
 import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
 import ResetPasswordModal from "../ForgotPassword/ResetPasswordModal";
 
@@ -24,7 +23,6 @@ export default function LoginForm({
   const [mostrarMensagem, setMostrarMensagem] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // modais
   const [openForgot, setOpenForgot] = useState(false);
   const [openReset, setOpenReset] = useState(false);
   const [presetEmail, setPresetEmail] = useState("");
@@ -67,13 +65,11 @@ export default function LoginForm({
     }
   };
 
-  // handlers para modais
   const handleOpenForgot = (e) => {
     if (e) e.preventDefault();
     setOpenForgot(true);
   };
 
-  // chamado pelo ForgotPasswordModal quando o envio for bem sucedido
   const handleKodSent = (sentEmail) => {
     setOpenForgot(false);
     setPresetEmail(sentEmail || "");
@@ -123,7 +119,6 @@ export default function LoginForm({
             Lembrar de mim
           </label>
 
-          {/* abre o modal de recuperar senha */}
           <a href="#" onClick={handleOpenForgot} className="forgot-link">Esqueci minha senha</a>
         </div>
 
@@ -138,7 +133,6 @@ export default function LoginForm({
         )}
       </form>
 
-      {/* Modais */}
       <ForgotPasswordModal
         open={openForgot}
         onClose={() => setOpenForgot(false)}

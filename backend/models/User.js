@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const UsersSchema = new mongoose.Schema({
   nome: { type: String, required: true },
+  genero: {
+    type: String,
+    enum: ["masculino", "feminino", "Prefiro não dizer"],
+    default: "Prefiro não dizer",
+  },
   email: { type: String, required: true, unique: true },
   senha_hash: { type: String, required: true },
   tipo: {
@@ -16,7 +21,6 @@ const UsersSchema = new mongoose.Schema({
   resetCodigo: { type: String },
   resetCodigoExp: { type: Date },
 
-  status: { type: String, default: "Ativo" },
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", UsersSchema);

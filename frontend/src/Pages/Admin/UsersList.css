@@ -1,6 +1,3 @@
-/* src/pages/Admin/UsersPage.css - ajustado conforme seu mock,
-   sem sombras, com ícones, header vermelho, link white abaixo do botão +Novo */
-
 .users-page-wrapper {
   padding: 56px 72px;
   min-height: 76vh;
@@ -9,29 +6,32 @@
   background: transparent;
 }
 
+/* Título da página */
 .page-title {
   font-size: 28px;
   margin: 0 0 18px;
   font-weight: 700;
 }
-.page-title .accent { color: var(--primary-color); }
+.page-title .accent {
+  color: var(--primary-color);
+}
 
 /* Controls row */
 .controls-row {
-  display:flex;
-  justify-content:space-between;
+  display: flex;
+  justify-content: space-between;
   gap: 16px;
-  align-items:center;
+  align-items: center;
   margin-bottom: 18px;
 }
 
-/* Search */
+/* Search box */
 .search-box {
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   gap: 0;
   flex: 1;
-  max-width: 920px;
+  max-width: 1200px;
 }
 .search-input {
   width: 100%;
@@ -40,7 +40,7 @@
   background: var(--dark-color);
   border: none;
   color: var(--light-color);
-  font-size: 0.95rem;
+  font-size: 1rem;
   box-sizing: border-box;
 }
 .search-icon {
@@ -51,18 +51,25 @@
   width: 56px;
   border-radius: 0 28px 28px 0;
   cursor: pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.search-icon img { width:18px; height:18px; filter: none; }
+.search-icon img {
+  width: 18px;
+  height: 18px;
+  filter: none;
+}
 
-/* Filters button with icon */
-.controls-right { display:flex; align-items:center; }
+/* Filters button */
+.controls-right {
+  display: flex;
+  align-items: center;
+}
 .filters-btn {
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
   border: 2px solid var(--primary-color);
   background: transparent;
   color: var(--primary-color);
@@ -71,9 +78,12 @@
   cursor: pointer;
   font-weight: 700;
 }
-.filters-btn img { width:18px; height:100%; }
+.filters-btn img {
+  width: 18px;
+  height: 100%;
+}
 
-/* Table: no shadows, rounded corners, header red gradient */
+/* Table */
 .table-container {
   margin-top: 12px;
 }
@@ -98,86 +108,104 @@
   color: #ddd;
   border-bottom: 1px solid rgba(255,255,255,0.02);
 }
-
-/* Rows colors - alternate */
 .users-table tbody tr:nth-child(odd) td {
   background: #2b2b2b;
 }
 .users-table tbody tr:nth-child(even) td {
   background: #272727;
 }
+.users-table thead th:first-child {
+  border-top-left-radius: 12px;
+}
+.users-table thead th:last-child {
+  border-top-right-radius: 12px;
+}
+.users-table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+.users-table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+.col-name {
+  font-weight: 600;
+  color: #fff;
+}
 
-/* table radius: only header top-left/top-right and footer bottom-left/right */
-.users-table thead th:first-child { border-top-left-radius: 12px; }
-.users-table thead th:last-child { border-top-right-radius: 12px; }
-
-/* bottom row rounding for last table row (visual) */
-.users-table tbody tr:last-child td:first-child { border-bottom-left-radius: 12px; }
-.users-table tbody tr:last-child td:last-child { border-bottom-right-radius: 12px; }
-
-/* column specifics */
-.col-name { font-weight: 600; color: #fff; }
-
-/* status badge */
+/* Status badges */
 .status-badge {
-  display:inline-block;
+  display: inline-block;
   padding: 6px 10px;
   border-radius: 999px;
   font-weight: 700;
   font-size: 0.9rem;
 }
-.status-badge.active { background: #2fe57a; color: #06220e; }
-.status-badge.inactive { background: #ff6b6b; color:#2b0000; }
+.status-badge.active {
+  background: #2fe57a;
+  color: #06220e;
+}
+.status-badge.inactive {
+  background: #ff6b6b;
+  color: #2b0000;
+}
 
-/* actions (icons from assets) */
-.actions-col { display:flex; gap:10px; align-items:center; justify-content:flex-end; }
+/* Actions column */
+.actions-col {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
 .action {
-  width:36px;
-  height:36px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   cursor: pointer;
   border-radius: 8px;
 }
-.action img { width:18px; height:18px; filter: none; }
+.action img {
+  width: 18px;
+  height: 18px;
+  filter: none;
+}
 
-/* bottom row */
+/* Bottom row */
 .bottom-row {
   margin-top: 22px;
-  display:flex;
-  gap: 18px;
-  align-items:flex-start;
-  justify-content:flex-start;
+  display: flex;
+  gap: 4px;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .new-user-btn {
-  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-  color: white;
+  background: var(--primary-color);
+  color: var(--light-color);
   border: none;
-  padding: 12px 20px;
+  padding: 18px 28px;
   border-radius: 12px;
   font-weight: 800;
   cursor: pointer;
 }
 .export-link {
-  display:block;
-  margin-top:10px; /* white link below the new-user button */
-  color: white;
+  display: block;
+  margin-top: 10px;
+  color: var(--light-color);
   text-decoration: underline;
   background: transparent;
   border: none;
   cursor: pointer;
 }
 
-/* modal (no heavy shadow) */
+/* Modal */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: rgba(0,0,0,0.6);
   z-index: 1200;
 }
@@ -190,73 +218,191 @@
   color: var(--light-color);
   box-sizing: border-box;
 }
-/* Wrapper para controlar o layout */
-.custom-select-wrapper {
+
+/* Modal title */
+.modal-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: red;
+}
+
+/* Form inputs */
+.create-form label {
+  display: block;
+  margin-top: 12px;
+  color: #fff;
+  font-size: 1.4;
+}
+.create-form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  background: #333;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.03);
+  color: var(--light-color);
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+.create-form input:focus {
+  border-color: red;
+  outline: none;
+}
+
+
+.modal-card .create-form .custom-select,
+.modal-card .create-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #333 !important;
+  color: var(--light-color) !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(255,255,255,0.03) !important;
+  width: 100% !important;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* remove seta nativa no IE/Edge */
+.modal-card .create-form .custom-select::-ms-expand {
+  display: none;
+}
+
+/* opções com fundo compatível (quando abre o dropdown) */
+.modal-card .create-form .custom-select option {
+  background: #333;
+  color: var(--light-color);
+}
+
+/* seta customizada (posicionamento) */
+.modal-card .create-form .custom-arrow {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--light-color);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* wrapper precisa ser relative (caso já não esteja) */
+.modal-card .create-form .custom-select-wrapper {
   position: relative;
   display: inline-block;
   width: 100%;
 }
 
-/* Select estilizado */
-.custom-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 100%;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
+/* foco vermelho */
+.modal-card .create-form .custom-select:focus {
+  outline: none;
+  border-color: red !important;
+  box-shadow: 0 0 0 3px rgba(255,0,0,0.06);
+}
+
+/* Modal buttons */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+/* Botão Criar */
+.btn-confirm {
+  background: red;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
   border-radius: 8px;
-  background-color: var(--dark-color);
-  color: var(--light-color);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.btn-confirm:hover {
+  opacity: 0.9;
+}
+
+/* Botão Cancelar */
+.btn-cancel {
+  background: transparent;
+  border: 1px solid red;
+  color: red;
+  padding: 10px 14px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
-/* Hover e focus */
-.custom-select:hover {
-  border-color: #888;
-}
-.custom-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
+.btn-cancel:hover {
+  background: rgba(255,0,0,0.1);
 }
 
-/* Setinha personalizada */
-.custom-arrow {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  width: 0;
-  height: 0;
-  pointer-events: none;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid #333;
-  transform: translateY(-50%);
+/* Small helpers */
+.center {
+  text-align: center;
+  padding: 20px;
+  color: #a8a8a8;
+}
+.muted {
+  color: #9a9a9a;
+  margin-top: 8px;
+  font-size: 0.92rem;
 }
 
-/* Opcional: animação ao abrir */
-.custom-select:focus + .custom-arrow {
-  transform: translateY(-50%) rotate(180deg);
-  transition: transform 0.2s ease;
-}
-.create-form label { display:block; margin-top:12px; color:#cfcfcf; }
-.create-form input { width:100%; padding:10px 12px; margin-top:6px; background:#1b1b1b; border-radius:8px; border:1px solid rgba(255,255,255,0.03); color:var(--light-color); }
-.modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:14px; }
-.btn-primary { background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700; }
-.btn-cancel { background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--light-color); padding:10px 14px; border-radius:8px; cursor:pointer; }
-
-/* small helpers */
-.center { text-align:center; padding:20px; color:#a8a8a8; }
-.muted { color:#9a9a9a; margin-top:8px; font-size:0.92rem; }
-
-/* responsiveness */
+/* Responsividade */
 @media (max-width: 1100px) {
-  .users-page-wrapper { padding: 36px; }
-  .users-table thead th, .users-table tbody td { padding: 12px; }
+  .users-page-wrapper {
+    padding: 36px;
+  }
+  .users-table thead th,
+  .users-table tbody td {
+    padding: 12px;
+  }
 }
 @media (max-width: 760px) {
-  .controls-row { flex-direction: column; gap: 12px; align-items: stretch; }
-  .search-input { font-size: 0.95rem; }
-  .modal-card { width: 94%; padding: 16px; }
+  .controls-row {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  .search-input {
+    font-size: 0.95rem;
+  }
+  .modal-card {
+    width: 94%;
+    padding: 16px;
+  }
+}
+
+.mensagem {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+  background-color: #ff4d4d;
+  color: var(--light-color);
+  font-weight: bold;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 1000;
+}
+
+.mensagem.entrar {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mensagem.sair {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-10px);
 }
