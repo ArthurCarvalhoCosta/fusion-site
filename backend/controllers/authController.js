@@ -1,3 +1,4 @@
+// authControllers
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -7,30 +8,87 @@ const transporter = require("../utils/mailer");
 exports.login = async (req, res) => {
   try {
     const { email, senha, userType } = req.body;
-    if (!email || !senha) return res.status(400).json({ success: false, message: "Preencha email e senha" });
+
+    if (!email || !senha) {
+      return res.status(400).json({
+        success: false,
+        message: "Preencha email e senha",
+      });
+    }
 
     const user = await User.findOne({ email: String(email).toLowerCase() }).lean();
-    if (!user) return res.status(404).json({ success: false, message: "Usuário não encontrado" });
 
-    // optional: verify frontend sent userType and it matches stored type
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuário não encontrado",
+      });
+    }
+
     if (userType && user.tipo !== userType) {
-      return res.status(403).json({ success: false, message: `Acesso negado para este tipo de usuário: ${user.tipo}` });
+      return res.status(403).json({
+        success: false,
+        message: `Acesso negado para este tipo de usuário: ${user.tipo}`,
+      });
     }
 
     const senhaValida = await bcrypt.compare(String(senha), String(user.senha_hash));
-    if (!senhaValida) return res.status(401).json({ success: false, message: "Senha incorreta" });
+    if (!senhaValida) {
+      return res.status(401).json({
+        success: false,
+        message: "Senha incorreta",
+      });
+    }
 
     const secret = process.env.JWT_SECRET;
-    if (!secret) return res.status(500).json({ success: false, message: "Configuração do servidor inválida" });
+    if (!secret) {
+      return res.status(500).json({
+        success: false,
+        message: "Configuração do servidor inválida (JWT_SECRET ausente)",
+      });
+    }
 
-    const token = jwt.sign({ id: user._id, tipo: user.tipo }, secret, { expiresIn: "1h" });
+    const token = jwt.sign(
+      { id: user._id, tipo: user.tipo },
+      secret,
+      { expiresIn: "1h" }
+    );
 
     const { senha_hash, resetCodigo, resetCodigoExp, ...safeUser } = user;
-    res.json({ success: true, message: "Login realizado", cliente: safeUser, token });
+
+    const defaultAvatar = "/assets/img/avatar.png"; 
+
+    res.json({
+      success: true,
+      message: "Login realizado",
+      cliente: {
+        id: user._id,
+        nome: user.nome,
+        genero: user.genero,
+        email: user.email,
+        tipo: user.tipo,
+        cpf: user.cpf || "",
+        modalidade: user.modalidade || "",
+        plano: user.plano || "",
+        avatarUrl: user.avatarUrl && user.avatarUrl.trim() !== ""
+          ? user.avatarUrl
+          : defaultAvatar,
+      },
+      token,
+    });
+
   } catch (err) {
     console.error("auth.login erro:", err);
-    res.status(500).json({ success: false, message: "Erro no servidor" });
+    res.status(500).json({
+      success: false,
+      message: "Erro interno no servidor",
+    });
   }
+};
+
+// POST /api/auth/logout
+exports.logout = (req, res) => {
+  return res.json({ success: true, message: "Logout realizado" });
 };
 
 // POST /api/auth/forgot-password

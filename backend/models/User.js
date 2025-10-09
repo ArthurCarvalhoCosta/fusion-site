@@ -1,3 +1,4 @@
+// modal/User
 const mongoose = require("mongoose");
 
 const UsersSchema = new mongoose.Schema({
@@ -17,6 +18,8 @@ const UsersSchema = new mongoose.Schema({
   cpf: { type: String, default: "" },
   modalidade: { type: String, default: "" },
   plano: { type: String, default: "" },
+
+  avatarUrl: { type: String, default: "" },
 
   resetCodigo: { type: String },
   resetCodigoExp: { type: Date },

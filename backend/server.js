@@ -1,3 +1,4 @@
+// server
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
@@ -8,6 +9,9 @@ const authRoutes = require('./routes/auth');
 const usersRoutes = require('./routes/users');
 
 const app = express();
+
+app.use("/assets", express.static(path.join(__dirname, "../frontend/src/assets")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Config from .env
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';

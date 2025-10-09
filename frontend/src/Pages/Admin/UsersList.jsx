@@ -1,3 +1,4 @@
+// src/Pages/UsersList/UsersList.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import "./UsersList.css";
 
@@ -269,6 +270,35 @@ export default function UsersList() {
         setShowEdit(false);
         resetEditForm();
         await fetchUsers();
+
+        // --- ADIÇÃO: se o usuário editado for o mesmo armazenado no localStorage, atualiza e notifica ---
+        try {
+          const raw = localStorage.getItem("user") || localStorage.getItem("usuario");
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            const currentId = parsed._id ?? parsed.id ?? parsed._id;
+            if (String(currentId) === String(id)) {
+              // Atualiza os campos conhecidos localmente (backend pode não retornar o objeto)
+              const updatedLocal = {
+                ...parsed,
+                nome: payload.nome,
+                genero: payload.genero,
+                email: payload.email,
+                cpf: payload.cpf,
+                modalidade: payload.modalidade,
+                plano: payload.plano,
+                tipo: payload.tipo,
+              };
+              localStorage.setItem("user", JSON.stringify(updatedLocal));
+              localStorage.setItem("usuario", JSON.stringify(updatedLocal));
+              // notifica CurrentUser para fazer refresh imediato
+              window.dispatchEvent(new Event("user:updated"));
+            }
+          }
+        } catch (err) {
+          console.warn("Não foi possível propagar atualização local do usuário:", err);
+        }
+        // -----------------------------------------------------------------------------------------
       } else {
         alert(data.message || "Erro ao atualizar");
       }
@@ -308,10 +338,10 @@ export default function UsersList() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button className="search-icon"><img src={IconSearch} /></button>
+          <button className="search-icon"><img src={IconSearch} alt="buscar" /></button>
         </div>
         <div className="controls-right">
-          <button className="filters-btn"><img src={IconFilter} />Filtros</button>
+          <button className="filters-btn"><img src={IconFilter} alt="filtros" />Filtros</button>
         </div>
       </div>
 
@@ -341,8 +371,8 @@ export default function UsersList() {
                   <td>{u.modalidade}</td>
                   <td>{u.plano}</td>
                   <td className="actions-col">
-                    <button className="action" onClick={() => openEdit(u)}><img src={IconEdit} /></button>
-                    <button className="action" onClick={() => doDelete(u.id, u.nome)}><img src={IconDelete} /></button>
+                    <button className="action" onClick={() => openEdit(u)}><img src={IconEdit} alt="editar" /></button>
+                    <button className="action" onClick={() => doDelete(u.id, u.nome)}><img src={IconDelete} alt="remover" /></button>
                   </td>
                 </tr>
               ))

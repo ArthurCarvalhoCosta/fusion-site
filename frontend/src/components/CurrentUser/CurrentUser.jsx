@@ -1,4 +1,4 @@
-// CurrentUser.jsx
+// src/components/CurrentUser/CurrentUser.jsx
 import React, { useState, useEffect, useCallback } from "react";
 
 const API_BASE = "http://localhost:5000";
@@ -16,6 +16,32 @@ export default function CurrentUser({ children }) {
   const normalize = (u) => {
     if (!u) return null;
     if (u.cliente) u = u.cliente;
+    return u;
+  };
+
+  const formatCPFMask = (v) => {
+    if (v === undefined || v === null) return "";
+    const only = String(v || "").replace(/\D/g, "");
+    if (!only) return "";
+    let out = only;
+    out = out.replace(/(\d{3})(\d)/, "$1.$2");
+    out = out.replace(/(\d{3})(\d)/, "$1.$2");
+    out = out.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    return out;
+  };
+
+  const normalizeAvatarUrl = (u) => {
+    if (!u) return u;
+    try {
+      const a = u.avatarUrl ?? u.avatar ?? "";
+      if (a && String(a).startsWith("/uploads")) {
+        u.avatarUrl = `${API_BASE}${a}`;
+      } else if (a) {
+        u.avatarUrl = a;
+      } else {
+        u.avatarUrl = "";
+      }
+    } catch {}
     return u;
   };
 
@@ -40,8 +66,14 @@ export default function CurrentUser({ children }) {
         return null;
       }
       const data = await res.json();
-      const u = normalize(data.user ?? data.cliente ?? data);
+      let u = normalize(data.user ?? data.cliente ?? data);
       if (u) {
+        // format CPF and normalize avatar URL
+        try {
+          u.cpf = formatCPFMask(u.cpf ?? u.documento ?? "");
+        } catch {}
+        u = normalizeAvatarUrl(u);
+
         setUser(u);
         try {
           localStorage.setItem("user", JSON.stringify(u));
@@ -68,6 +100,12 @@ export default function CurrentUser({ children }) {
           let parsed = JSON.parse(raw);
           parsed = normalize(parsed);
           if (parsed && (parsed._id || parsed.id || parsed.email)) {
+            // format CPF and normalize avatar url on parsed object as well
+            try {
+              parsed.cpf = formatCPFMask(parsed.cpf ?? parsed.documento ?? "");
+            } catch {}
+            parsed = normalizeAvatarUrl(parsed);
+
             setUser(parsed);
 
             // Se estiver faltando campos importantes (modalidade/plano/tipo), tenta buscar o backend em background
@@ -96,8 +134,19 @@ export default function CurrentUser({ children }) {
   }, [fetchMe]);
 
   useEffect(() => {
+    // carrega inicialmente
     loadUser();
-  }, [loadUser]);
+
+    // escuta evento para forçar refresh quando outro componente alterar o usuário
+    const onUserUpdated = () => {
+      fetchMe().catch((e) => console.error("fetchMe on user:updated failed:", e));
+    };
+    window.addEventListener("user:updated", onUserUpdated);
+
+    return () => {
+      window.removeEventListener("user:updated", onUserUpdated);
+    };
+  }, [loadUser, fetchMe]);
 
   const refreshUser = useCallback(() => fetchMe(), [fetchMe]);
 

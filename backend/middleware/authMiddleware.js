@@ -1,3 +1,4 @@
+// authMiddleware
 const jwt = require("jsonwebtoken");
 const User = require("../models/User"); // ajusta o caminho se necessário
 

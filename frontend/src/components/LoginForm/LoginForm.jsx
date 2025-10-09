@@ -48,18 +48,51 @@ export default function LoginForm({
         body: JSON.stringify({ email, senha, userType }),
       });
 
-      const data = await res.json();
+      // tenta interpretar body (mesmo quando res.ok === false querer olhar message)
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data.success) {
         mostrarErro(data.erro || data.message || "Erro desconhecido");
       } else {
-        // Salva dados do usuário
-        localStorage.setItem("usuario", JSON.stringify(data.cliente ?? data.user ?? {}));
+        // extrai o objeto do usuário retornado (backend usa "cliente" em alguns endpoints)
+        const rawUser = data.cliente ?? data.user ?? {};
 
-        // Salva token JWT
-        if (data.token) localStorage.setItem("token", data.token);
+        // normalize avatarUrl
+        let avatarUrl = rawUser.avatarUrl ?? rawUser.avatar ?? "";
+        if (avatarUrl && avatarUrl.startsWith("/uploads")) {
+          avatarUrl = `${apiBase.replace(/\/$/, "")}${avatarUrl}`;
+        }
+        if (!avatarUrl) avatarUrl = ""; // deixa string vazia para o Avatar component mostrar inicial
 
-        // Callback ou navegação
+        const userToStore = {
+          _id: rawUser._id ?? rawUser.id,
+          nome: rawUser.nome ?? rawUser.name ?? "",
+          email: rawUser.email ?? "",
+          tipo: rawUser.tipo ?? rawUser.role ?? rawUser.type ?? "",
+          cpf: rawUser.cpf ?? rawUser.documento ?? "",
+          modalidade: rawUser.modalidade ?? rawUser.modality ?? "",
+          plano: rawUser.plano ?? rawUser.plan ?? "",
+          avatarUrl,
+          // copia todo rawUser por segurança (evita perder campos)
+          ...rawUser
+        };
+
+        // Salva em várias chaves para compatibilidade com várias telas/componentes
+        try {
+          localStorage.setItem("usuario", JSON.stringify(userToStore));
+          localStorage.setItem("user", JSON.stringify(userToStore));
+          if (userToStore._id) localStorage.setItem("userId", userToStore._id);
+          if (userToStore.email) localStorage.setItem("userEmail", userToStore.email);
+        } catch (err) {
+          console.warn("Erro ao gravar localStorage:", err);
+        }
+
+        // salva token JWT separadamente (se existir)
+        if (data.token) {
+          try { localStorage.setItem("token", data.token); } catch (err) { console.warn("Erro ao gravar token:", err); }
+        }
+
+        // callback ou navegação
         if (typeof onSuccess === "function") onSuccess(data);
         else navigate(redirectTo);
       }
