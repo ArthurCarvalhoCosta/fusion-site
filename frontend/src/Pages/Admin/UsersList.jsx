@@ -58,7 +58,6 @@ const GENERO_OPTIONS = [
   { value: "Prefiro não dizer", label: "Prefiro não dizer" },
 ];
 
-// Função para formatar CPF
 const formatCPF = (value) => {
   if (!value) return "";
   value = value.replace(/\D/g, "");
@@ -99,6 +98,34 @@ export default function UsersList() {
     modalidade: "",
     plano: "",
   });
+
+  const resetCreateForm = () => {
+    setCreateForm({
+      nome: "",
+      genero: "",
+      email: "",
+      senha: "",
+      tipo: "",
+      cpf: "",
+      modalidade: "",
+      plano: "",
+    });
+    setStepCreate(1);
+  };
+
+  const resetEditForm = () => {
+    setEditForm({
+      id: "",
+      nome: "",
+      genero: "",
+      email: "",
+      tipo: "",
+      cpf: "",
+      modalidade: "",
+      plano: "",
+    });
+    setStepEdit(1);
+  };
 
   useEffect(() => {
     fetchUsers();
@@ -157,34 +184,6 @@ export default function UsersList() {
   const handleCPFChangeEdit = (e) => {
     const val = e.target.value;
     setEditForm({ ...editForm, cpf: formatCPF(val) });
-  };
-
-  const resetCreateForm = () => {
-    setCreateForm({
-      nome: "",
-      genero: "",
-      email: "",
-      senha: "",
-      tipo: "",
-      cpf: "",
-      modalidade: "",
-      plano: "",
-    });
-    setStepCreate(1);
-  };
-
-  const resetEditForm = () => {
-    setEditForm({
-      id: "",
-      nome: "",
-      genero: "",
-      email: "",
-      tipo: "",
-      cpf: "",
-      modalidade: "",
-      plano: "",
-    });
-    setStepEdit(1);
   };
 
   const submitCreate = async (e) => {
@@ -299,7 +298,7 @@ export default function UsersList() {
 
   return (
     <div className="users-page-wrapper">
-      <h2 className="page-title">Gerenciar <span className="accent">Usuários</span></h2>
+      <h1 className="page-title">Gerenciar <span className="accent">Usuários</span></h1>
 
       <div className="controls-row">
         <div className="search-box">

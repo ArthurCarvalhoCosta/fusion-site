@@ -50,10 +50,16 @@ export default function LoginForm({
 
       const data = await res.json();
 
-      if (!res.ok) {
+      if (!res.ok || !data.success) {
         mostrarErro(data.erro || data.message || "Erro desconhecido");
       } else {
+        // Salva dados do usuário
         localStorage.setItem("usuario", JSON.stringify(data.cliente ?? data.user ?? {}));
+
+        // Salva token JWT
+        if (data.token) localStorage.setItem("token", data.token);
+
+        // Callback ou navegação
         if (typeof onSuccess === "function") onSuccess(data);
         else navigate(redirectTo);
       }

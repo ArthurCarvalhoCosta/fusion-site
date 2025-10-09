@@ -7,6 +7,8 @@ import LoginAdmin from './Pages/Login/TypeLogin/LoginAdmin.jsx';
 import LoginTrainer from './Pages/Login/TypeLogin/LoginTrainer.jsx';
 import LoginStudent from './Pages/Login/TypeLogin/LoginStudent.jsx';
 
+import ProfilePage from './Pages/AlunoSettings/ProfilePage.jsx';
+
 import UsersList from './Pages/Admin/UsersList.jsx';
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
         <Route path="/login/Trainer" element={<LoginTrainer />} />
         <Route path="/login/Student" element={<LoginStudent />} />
         <Route path="/Users" element={<UsersList />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
