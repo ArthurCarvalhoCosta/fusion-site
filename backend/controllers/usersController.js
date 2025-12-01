@@ -1,6 +1,6 @@
   // backend/controllers/usersController.js
   const User = require("../models/User");
-  const bcrypt = require("bcrypt");
+  const bcrypt = require("bcryptjs");
 
   const sanitizeCPF = (cpf = "") => String(cpf).replace(/\D/g, "").slice(0, 11);
 
