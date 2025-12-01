@@ -10,7 +10,7 @@ import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
 import ResetPasswordModal from "../ForgotPassword/ResetPasswordModal";
 
 export default function LoginForm({
-  apiBase = process.env.REACT_APP_API_BASE || "http://localhost:5000",
+  apiBase = process.env.BACKEND_URL || "http://localhost:5000",
   apiPath = "/api/auth/login",
   redirectTo = "/",
   userType = "Aluno",
@@ -29,8 +29,16 @@ export default function LoginForm({
 
   const navigate = useNavigate();
 
+  // 🔴 Mensagem de erro
   const mostrarErro = (texto) => {
     setMensagem(texto);
+    setMostrarMensagem(true);
+    setTimeout(() => setMostrarMensagem(false), 3000);
+  };
+
+  // 🟢 Mensagem de sucesso
+  const mostrarSucesso = (texto) => {
+    setMensagem(`sucesso: ${texto}`);
     setMostrarMensagem(true);
     setTimeout(() => setMostrarMensagem(false), 3000);
   };
@@ -48,21 +56,20 @@ export default function LoginForm({
         body: JSON.stringify({ email, senha, userType }),
       });
 
-      // tenta interpretar body (mesmo quando res.ok === false querer olhar message)
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok || !data.success) {
         mostrarErro(data.erro || data.message || "Erro desconhecido");
       } else {
-        // extrai o objeto do usuário retornado (backend usa "cliente" em alguns endpoints)
+        mostrarSucesso("Login realizado com sucesso!");
+
         const rawUser = data.cliente ?? data.user ?? {};
 
-        // normalize avatarUrl
         let avatarUrl = rawUser.avatarUrl ?? rawUser.avatar ?? "";
         if (avatarUrl && avatarUrl.startsWith("/uploads")) {
           avatarUrl = `${apiBase.replace(/\/$/, "")}${avatarUrl}`;
         }
-        if (!avatarUrl) avatarUrl = ""; // deixa string vazia para o Avatar component mostrar inicial
+        if (!avatarUrl) avatarUrl = "";
 
         const userToStore = {
           _id: rawUser._id ?? rawUser.id,
@@ -73,11 +80,9 @@ export default function LoginForm({
           modalidade: rawUser.modalidade ?? rawUser.modality ?? "",
           plano: rawUser.plano ?? rawUser.plan ?? "",
           avatarUrl,
-          // copia todo rawUser por segurança (evita perder campos)
-          ...rawUser
+          ...rawUser,
         };
 
-        // Salva em várias chaves para compatibilidade com várias telas/componentes
         try {
           localStorage.setItem("usuario", JSON.stringify(userToStore));
           localStorage.setItem("user", JSON.stringify(userToStore));
@@ -87,12 +92,14 @@ export default function LoginForm({
           console.warn("Erro ao gravar localStorage:", err);
         }
 
-        // salva token JWT separadamente (se existir)
         if (data.token) {
-          try { localStorage.setItem("token", data.token); } catch (err) { console.warn("Erro ao gravar token:", err); }
+          try {
+            localStorage.setItem("token", data.token);
+          } catch (err) {
+            console.warn("Erro ao gravar token:", err);
+          }
         }
 
-        // callback ou navegação
         if (typeof onSuccess === "function") onSuccess(data);
         else navigate(redirectTo);
       }
@@ -158,7 +165,9 @@ export default function LoginForm({
             Lembrar de mim
           </label>
 
-          <a href="#" onClick={handleOpenForgot} className="forgot-link">Esqueci minha senha</a>
+          <a href="#" onClick={handleOpenForgot} className="forgot-link">
+            Esqueci minha senha
+          </a>
         </div>
 
         <button type="submit" disabled={loading} className="submit">
@@ -166,8 +175,12 @@ export default function LoginForm({
         </button>
 
         {mensagem && (
-          <div className={`mensagem ${mostrarMensagem ? "entrar" : "sair"}`}>
-            {mensagem}
+          <div
+            className={`mensagem ${mostrarMensagem ? "entrar" : "sair"} ${
+              mensagem.includes("sucesso") ? "sucesso" : "erro"
+            }`}
+          >
+            {mensagem.replace("sucesso: ", "")}
           </div>
         )}
       </form>

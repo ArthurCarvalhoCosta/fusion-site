@@ -1,5 +1,4 @@
 import React from "react";
-import { FcGoogle } from "react-icons/fc";
 
 import Carousel from "../../../components/LoginCarousel/LoginCarousel";
 import LoginForm from "../../../components/LoginForm/LoginForm";
@@ -15,22 +14,12 @@ const LoginAdmin = () => {
 
       {/* Lado direito - Formulário */}
       <div className="login-form">
-        <LoginForm
-          userType="Administrador"
-          apiBase="http://localhost:5000"
-          apiPath="/api/auth/login"
-          redirectTo="/admin/dashboard"
-        />
-
-        <div className="divider">
-          <span>ou entre com</span>
-        </div>
-
-        <div className="google-login">
-          <button type="button" className="google-btn">
-            <FcGoogle className="google-icon" />
-          </button>
-        </div>
+      <LoginForm
+        userType="Admin"
+        apiBase={process.env.BACKEND_URL || "http://localhost:5000"}
+        apiPath="/api/auth/login"
+        redirectTo="/admin/dashboard"
+      />
       </div>
     </div>
   );

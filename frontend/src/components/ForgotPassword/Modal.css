@@ -135,3 +135,16 @@
   height: 1.4rem;
   filter: brightness(0) invert(1);
 }
+
+.modal-top-alert.sair {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.modal-top-alert.entrar {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+  

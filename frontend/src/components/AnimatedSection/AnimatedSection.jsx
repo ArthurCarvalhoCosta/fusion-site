@@ -1,27 +1,36 @@
-// src/components/AnimatedSection/AnimatedSection.jsx
 import React, { useEffect, useRef, useState } from "react";
 import "./AnimatedSection.css";
 
-const AnimatedSection = ({ children }) => {
-  const ref = useRef();
-  const [visible, setVisible] = useState(false);
+const AnimatedSection = ({ children, className = "" }) => {
+  const ref = useRef(null);
+  const [animated, setAnimated] = useState(false);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(entry.target); // anima apenas uma vez
+        // entry.intersectionRatio = % visível do elemento
+        if (entry.intersectionRatio >= 0.3) {  
+          setAnimated(true);      // ativa a animação
+          observer.unobserve(el); // garante que só anima 1 vez
         }
       },
-      { threshold: 0.1 }
+      {
+        threshold: [0, 0.3, 1], // garante precisão no ponto de 30%
+      }
     );
-    observer.observe(ref.current);
+
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div ref={ref} className={`animated-section ${visible ? "visible" : ""}`}>
+    <div
+      ref={ref}
+      className={`animated-section ${animated ? "visible" : ""} ${className}`}
+    >
       {children}
     </div>
   );

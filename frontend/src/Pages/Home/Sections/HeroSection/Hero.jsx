@@ -1,7 +1,50 @@
+// HeroSection.jsx
 import './Hero.css'
 import heroImage from '@/assets/img/hero.png'
+import { useNavigate } from 'react-router-dom'
 
 export const HeroSection = () => {
+  const navigate = useNavigate()
+
+  // tenta verificar sessão no backend; ajuste o endpoint se necessário.
+  async function isLoggedServerSide() {
+    try {
+      // rota de exemplo: /auth/me ou /api/auth/me — ajuste conforme seu backend
+      const res = await fetch('/auth/me', {
+        method: 'GET',
+        credentials: 'include', // caso use cookie de sessão
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      if (!res.ok) return false
+      const data = await res.json()
+      // supondo que o backend retorne algo como { user: {...} } se autenticado
+      return !!(data && (data.user || data.email || data.id))
+    } catch (err) {
+      return false
+    }
+  }
+
+  async function handleStart() {
+    // 1) tenta verificar com o backend (mais confiável se usar cookies/sessão)
+    const serverOk = await isLoggedServerSide()
+    if (serverOk) {
+      navigate('/weeklyworkout')
+      return
+    }
+
+    // 2) fallback simples: token no localStorage (caso você armazene JWT)
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/weeklyworkout')
+      return
+    }
+
+    // 3) se nada, direciona para login
+    navigate('/login')
+  }
+
   return (
     <section
       className="hero-container"
@@ -20,6 +63,7 @@ export const HeroSection = () => {
           <button
             className="button"
             type="button"
+            onClick={handleStart}
             aria-label="Comece agora sua jornada"
           >
             Comece Agora

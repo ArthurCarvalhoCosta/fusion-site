@@ -1,56 +1,39 @@
-// src/components/Avatar/Avatar.jsx
 import React, { useState } from "react";
 import "./Avatar.css";
 
-/**
- * Avatar
- * - user: objeto de usuário (pode conter avatarUrl, nome, etc)
- * - size: número (px)
- * - className: classes extras
- */
-export default function Avatar({ user = {}, size = 44, className = "", alt = "Avatar" }) {
-  const [imgError, setImgError] = useState(false);
+export default function Avatar({ user, size = 100 }) {
+  const nome = user?.nome || user?.name || "";
+  const firstLetter = nome ? nome.charAt(0).toUpperCase() : "?";
 
-  // normaliza dados
-  const nome = (user?.nome || user?.name || "").toString();
-  const inicial = nome ? nome.charAt(0).toUpperCase() : "U";
-
-  // avatarUrl pode ser uma URL absoluta, relative (/uploads/...), ou vazio
-  let avatarUrl = user?.avatarUrl ?? user?.avatar ?? "";
-  if (typeof avatarUrl !== "string") avatarUrl = "";
-
-  // se for caminho relativo do backend (/uploads/xx) converte para absoluto
-  if (avatarUrl && avatarUrl.startsWith("/uploads")) {
-    // ajustar se seu backend usa outra base
-    avatarUrl = `${window.location.protocol}//${window.location.hostname}${window.location.port ? ":"+window.location.port : ""}${avatarUrl}`;
+  // garante que avatarUrl só seja considerado válido se não for vazio
+  let initialSrc = user?.avatarUrl || user?.avatar || null;
+  if (initialSrc && initialSrc.startsWith("/uploads")) {
+    initialSrc = `${process.env.BACKEND_URL || "http://localhost:5000"}${initialSrc}`;
   }
 
-  const showLetter = !avatarUrl || imgError;
-
-  const sizeStyle = {
-    width: size,
-    height: size,
-    lineHeight: `${size}px`,
-    fontSize: Math.max(12, Math.floor(size * 0.45)),
-  };
+  // estado para lidar com erro de imagem
+  const [src, setSrc] = useState(initialSrc);
 
   return (
     <div
-      className={`avatar-component ${className} ${showLetter ? "avatar-letter" : "avatar-img-wrap"}`}
-      style={sizeStyle}
-      aria-hidden={false}
-      title={nome || alt}
+      className="avatar-wrapper"
+      style={{
+        width: size,
+        height: size,
+        borderRadius: 50,
+      }}
     >
-      {showLetter ? (
-        <div className="avatar-letter-inner">{inicial}</div>
-      ) : (
+      {src ? (
         <img
-          src={avatarUrl}
-          alt={alt}
+          src={src}
           className="avatar-img"
-          onError={() => setImgError(true)}
-          draggable={false}
+          alt="avatar"
+          onError={() => setSrc(null)}
         />
+      ) : (
+        <div className="avatar-fallback">
+          {firstLetter}
+        </div>
       )}
     </div>
   );

@@ -7,22 +7,21 @@ export default function PinInput({ length = 6, value = "", onChange, onComplete 
   const handleChange = (e, idx) => {
     const v = e.target.value.replace(/\D/g, "");
     if (!v) {
-      // allow clearing with backspace
-      const newVal = value.split("");
-      newVal[idx] = "";
-      onChange(newVal.join("").slice(0, length));
+      const arr = value.split("");
+      arr[idx] = "";
+      onChange(arr.join("").slice(0, length));
       return;
     }
+
     const char = v[0];
     const arr = value.split("");
     arr[idx] = char;
+
     const newValue = arr.join("").slice(0, length).padEnd(length, "");
     onChange(newValue);
 
-    // foco
     if (idx < length - 1) inputsRef.current[idx + 1]?.focus();
 
-    // chama onComplete se cheio
     const filled = newValue.replace(/\s/g, "");
     if (filled.length === length && typeof onComplete === "function") {
       onComplete(filled);
@@ -43,6 +42,7 @@ export default function PinInput({ length = 6, value = "", onChange, onComplete 
     const paste = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, length);
     const padded = paste.padEnd(length, "");
     onChange(padded);
+
     if (paste.length === length && typeof onComplete === "function") onComplete(paste);
   };
 

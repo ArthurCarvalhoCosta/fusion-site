@@ -1,67 +1,95 @@
 .footer {
   background-color: #1e1e1e;
-  padding: 2rem;
+  padding: 2rem 4rem;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 2rem;
   width: 100%;
   box-sizing: border-box;
 }
 
-.footer-logo img {
-  width: 180px;
-  height: auto;
-}
-
 .footer-columns {
   display: flex;
-  justify-content: center;
-  gap: clamp(2rem, 8vw, 12rem);
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: nowrap; /* 🔒 impede quebra de linha */
+  gap: 3rem;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .footer-column {
-  min-width: 180px;
+  flex: 1;
+  min-width: 200px;
 }
 
+.footer-logo img {
+  width: 160px;
+  height: auto;
+}
+
+/* ==== TITULOS ==== */
 .footer-column h3 {
   color: var(--primary-color);
   font-size: 1.3rem;
   margin-bottom: 1rem;
 }
 
+/* ==== TEXTOS ==== */
 .footer-column ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .footer-column ul li,
 .footer-column p {
   color: var(--light-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   font-size: 1rem;
+  line-height: 1.6;
 }
 
 .footer-column a {
   color: var(--light-color);
-  transition: color 0.3s;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .footer-column a:hover {
   color: var(--primary-color);
 }
 
-@media (max-width: 768px) {
+/* ==== REDES SOCIAIS ==== */
+.footer-social .footer-icons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.footer-social a {
+  color: var(--light-color);
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer-social a:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
+
+/* ==== RESPONSIVIDADE ==== */
+@media (max-width: 950px) {
   .footer-columns {
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap; /* agora pode quebrar quando a tela for menor */
+    justify-content: center;
     gap: 2rem;
   }
 
   .footer-column {
+    flex: 1 1 250px;
     text-align: center;
+  }
+
+  .footer-social .footer-icons {
+    justify-content: center;
   }
 }

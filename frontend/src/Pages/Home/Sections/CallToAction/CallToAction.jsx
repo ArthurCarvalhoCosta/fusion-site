@@ -1,5 +1,6 @@
 import React from "react";
 import "./CallToAction.css";
+import contactImage from "@/assets/img/imageContact.png";
 
 export const CallToAction = () => {
   return (
@@ -20,7 +21,10 @@ export const CallToAction = () => {
           Chamar no WhatsApp
         </a>
       </div>
-      <div className="cta-image-placeholder"></div>
+
+      <div className="cta-image-placeholder">
+        {/*<img src={contactImage} alt="Imagem de contato" />*/}
+      </div>
     </section>
   );
 };

@@ -38,8 +38,12 @@
   font-weight: bold;
   border-radius: 12px;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: transform 0.2s ease;
   white-space: nowrap;
+}
+
+.cta-button:hover {
+  transform: scale(1.06);
 }
 
 .cta-image-placeholder {
@@ -48,6 +52,17 @@
   background-color: var(--light-color);
   border-top-left-radius: 50%;
   border-bottom-left-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @media (max-width: 1024px) {

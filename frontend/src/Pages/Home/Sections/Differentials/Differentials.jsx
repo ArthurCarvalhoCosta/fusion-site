@@ -1,30 +1,30 @@
 import './Differentials.css';
 
-import treinoIcon from "@/assets/img/check.png";
-import equipeIcon from "@/assets/img/check.png";
-import ambienteIcon from "@/assets/img/check.png";
-import resultadoIcon from "@/assets/img/check.png";
+import icon1 from "@/assets/icons/differentials1.ico";
+import icon2 from "@/assets/icons/differentials2.ico";
+import icon3 from "@/assets/icons/differentials3.ico";
+import icon4 from "@/assets/icons/differentials4.ico";
 
 const items = [
   {
     title: 'Treinos completos',
     description: 'Funcional e artes marciais combinados para um desempenho completo.',
-    icon: treinoIcon,
+    icon: icon1,
   },
   {
     title: 'Equipe qualificada',
     description: 'Instrutores certificados, preparados para orientar você com segurança.',
-    icon: equipeIcon,
+    icon: icon2,
   },
   {
     title: 'Ambiente acolhedor',
     description: 'Atmosfera respeitosa e familiar, perfeita para seu desenvolvimento.',
-    icon: ambienteIcon,
+    icon: icon3,
   },
   {
     title: 'Resultados reais',
     description: 'Concentre-se no progresso físico e mental, passo a passo.',
-    icon: resultadoIcon,
+    icon: icon4,
   },
 ];
 

@@ -1,10 +1,9 @@
 // src/components/Header/Header.jsx
 import './Header.css'
 import logoImg from '@/assets/img/logo.png'
-import avatarImg from '@/assets/img/avatar.png'
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import Avatar from '@/components/Avatar/Avatar'; // <-- novo
+import Avatar from '@/components/Avatar/Avatar';
 
 export const Header = () => {
   const [activeSection, setActiveSection] = useState(null);
@@ -36,17 +35,25 @@ export const Header = () => {
     return () => sections.forEach(section => observer.unobserve(section));
   }, []);
 
-  // 🔹 Carrega usuário do localStorage e sincroniza entre abas
   useEffect(() => {
     const loadUser = () => {
       const raw = localStorage.getItem('usuario') || localStorage.getItem('user');
       if (raw) {
         try {
           const parsed = JSON.parse(raw);
-          // Normalize: ensure modalidade, plano and avatarUrl exist (empty string if absent)
-          parsed.modalidade = parsed.modalidade ?? parsed.modality ?? parsed?.modalidade ?? "";
-          parsed.plano = parsed.plano ?? parsed.plan ?? parsed?.plano ?? "";
-          parsed.avatarUrl = parsed.avatarUrl ?? parsed.avatar ?? parsed?.avatarUrl ?? "";
+
+          parsed.modalidade = parsed.modalidade ?? parsed.modality ?? "";
+          parsed.plano = parsed.plano ?? parsed.plan ?? "";
+          parsed.avatarUrl = parsed.avatarUrl ?? parsed.avatar ?? "";
+
+          const tipoOriginal = parsed.tipo ?? parsed.type ?? parsed.role ?? "";
+          const tipoLower = tipoOriginal.toLowerCase();
+
+          if (tipoLower.includes("aluno")) parsed.type = "student";
+          else if (tipoLower.includes("admin")) parsed.type = "admin";
+          else if (tipoLower.includes("personal")) parsed.type = "personal";
+          else parsed.type = "student";
+
           setUser(parsed);
         } catch {
           setUser(null);
@@ -55,18 +62,20 @@ export const Header = () => {
         setUser(null);
       }
     };
+
     loadUser();
 
     const onStorage = (e) => {
-      if (e.key === 'usuario' || e.key === 'user' || e.key === 'token') loadUser();
+      if (["usuario", "user", "token"].includes(e.key)) loadUser();
     };
+
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   const menuItems = [
     { id: 'Home', label: 'Início' },
-    { id: 'Training', label: 'Treino' },
+    { id: 'treino', label: 'Treino' }, // <-- id único para tratar navegação
     { id: 'differentials', label: 'Diferenciais' },
     { id: 'HowItWorks', label: 'Como Funciona' },
     { id: 'testimonials', label: 'Depoimentos' },
@@ -80,6 +89,7 @@ export const Header = () => {
     const headerOffset = 100;
     const offsetPosition =
       element.getBoundingClientRect().top + window.scrollY - headerOffset;
+      
     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     setIsMenuOpen(false);
   };
@@ -87,6 +97,15 @@ export const Header = () => {
   const handleEntrar = (e) => {
     e.preventDefault();
     navigate('/login');
+  };
+
+  const navigateByType = () => {
+    if (!user) return navigate("/profile");
+
+    if (user.type === "student") navigate("/profile/student");
+    else if (user.type === "admin") navigate("/profile/admin");
+    else if (user.type === "personal") navigate("/profile/personal");
+    else navigate("/profile");
   };
 
   return (
@@ -107,9 +126,26 @@ export const Header = () => {
             <a
               key={item.id}
               className={`menu-item ${activeSection === item.id ? 'active' : ''}`}
-              href={`#${item.id}`}
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
+
+                // 👉 SE FOR O BOTÃO "TREINO" → ir para /weeklyworkout
+                if (item.id === "treino") {
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }, 100);
+                  navigate("/weeklyworkout");
+                  return;
+                }
+
+                // Se NÃO estiver na home → navega e pede scroll depois
+                if (location.pathname !== "/") {
+                  navigate("/", { state: { scrollTo: item.id } });
+                  return;
+                }
+
+                // Se já estiver na home → scroll suave
                 handleScrollTo(item.id);
               }}
             >
@@ -124,12 +160,13 @@ export const Header = () => {
             <div
               role="button"
               tabIndex={0}
-              onClick={() => navigate('/profile')}
-              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') navigate('/profile'); }}
+              onClick={navigateByType}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") navigateByType();
+              }}
               title="Perfil"
-              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+              style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
             >
-              {/* usa componente Avatar */}
               <Avatar user={user} size={44} className="avatar-header" />
             </div>
           ) : (
@@ -155,13 +192,31 @@ export const Header = () => {
 
       <aside className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <button className="close-btn" onClick={() => setIsMenuOpen(false)}>×</button>
+
         <ul>
           {menuItems.map(item => (
             <li key={item.id}>
               <a
-                href={`#${item.id}`}
+                href="#"
                 onClick={(e) => {
                   e.preventDefault();
+
+                  // 👉 MOBILE: Treino também vai para a rota
+                  if (item.id === "treino") {
+                    setIsMenuOpen(false);
+                    navigate("/weeklyworkout");
+                    setTimeout(() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }, 100);
+                    return;
+                  }
+
+                  if (location.pathname !== "/") {
+                    setIsMenuOpen(false);
+                    navigate("/", { state: { scrollTo: item.id } });
+                    return;
+                  }
+
                   handleScrollTo(item.id);
                 }}
               >
@@ -171,10 +226,10 @@ export const Header = () => {
           ))}
         </ul>
 
-        {/* Área de perfil no mobile */}
+        {/* Perfil mobile */}
         <div className="mobile-profile">
           {user ? (
-            <div style={{ cursor: "pointer" }} onClick={() => navigate("/profile")}>
+            <div style={{ cursor: "pointer" }} onClick={navigateByType}>
               <Avatar user={user} size={56} className="mobile-avatar" />
             </div>
           ) : (

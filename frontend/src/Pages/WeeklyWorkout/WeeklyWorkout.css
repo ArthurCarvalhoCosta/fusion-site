@@ -1,0 +1,302 @@
+.main-content {
+  margin-top: 100px;
+}
+
+/* ---------------- HERO SECTION ---------------- */
+
+.discipline-section {
+  height: 720px;
+  background-size: cover;
+  background-position: center right;
+  padding: 120px 8%;
+  display: flex;
+  align-items: center;
+  margin-top: -100px; /* mantém sobreposição do header, como no mockup */
+}
+
+.discipline-content {
+  max-width: 600px;
+}
+
+.discipline-section h1 {
+  color: #ff2e2e;
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.discipline-section p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 20px;
+  color: #ddd;
+}
+
+.discipline-section ul {
+  list-style: none;
+  font-size: 20px;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.discipline-section li {
+  margin-bottom: 10px;
+  color: #ddd;
+}
+
+.discipline-section li::before {
+  content: "✔";
+  color: #ff2e2e;
+  margin-right: 8px;
+}
+
+/* ---------------- CHECK-INS ---------------- */
+
+.check-ins {
+  text-align: center;
+  padding: 48px 8%;
+  background: linear-gradient(180deg, #ff2e2e, #c41919);
+  color: white;
+  margin-bottom: 40px;
+}
+
+.check-ins h2 {
+  margin-bottom: 8px;
+  font-size: 26px;
+}
+
+.check-ins p {
+  font-size: 18px;
+  max-width: 760px;
+  margin: 0 auto 18px auto;
+  color: rgba(255,255,255,0.95);
+}
+
+.checkins-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.checkins-counter {
+  color: white;
+  font-weight: 600;
+}
+
+/* botão check-in */
+.check-in-btn {
+  background: white;
+  color: #c41919;
+  padding: 12px 36px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+/* ---------------- TREINO DA SEMANA ---------------- */
+
+.workout-schedule {
+  padding: 20px 8%;
+  background: #333;
+}
+
+.week-nav {
+  position: relative; /* para que os botões absolutos se posicionem em relação a este container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.week-title {
+  background: #ff2e2e;
+  padding: 12px 26px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  width: 100%;
+  max-width: 1250px;
+  z-index: 1;
+  position: relative;
+}
+
+/* setas sobrepostas */
+.week-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  border: 2px solid #2c2c2c;
+  color: white;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform .12s;
+}
+
+.week-arrow:hover { transform: translateY(-50%) translateY(-2px); }
+
+.week-arrow.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* posicionamento específico das setas */
+.week-arrow:first-of-type { left: 12px; }   /* seta prev à esquerda */
+.week-arrow:last-of-type { right: 12px; }   /* seta next à direita */
+
+/* ---------------- TABELA ESTILIZADA ---------------- */
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: center;
+}
+
+.table-col-header {
+  background: #ff2e2e;
+  padding: 14px 0;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px;
+  color: white;
+}
+
+/* LINHAS */
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.table-col {
+  background: #222;
+  padding: 18px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  color: #ddd;
+}
+
+.table-col:last-child {
+  color: #ff2e2e;
+  font-weight: 700;
+}
+
+/* mensagens */
+.no-weeks-msg {
+  padding: 36px;
+  text-align: center;
+  color: #ccc;
+  font-size: 16px;
+}
+
+/* ---------------- POPUP CHECK-IN INTERATIVO ---------------- */
+
+.checkin-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.checkin-popup {
+  background: #222;
+  color: white;
+  padding: 28px 30px;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 92%;
+  text-align: center;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.5);
+}
+
+.checkin-popup h3 {
+  margin-bottom: 14px;
+  color: #ff2e2e;
+  font-size: 20px;
+}
+
+.days-selection {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.day-btn {
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: 1px solid #444;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.day-btn:hover { transform: translateY(-3px); }
+
+.day-btn.selected {
+  background: #ff2e2e;
+  color: white;
+  border-color: #ff2e2e;
+}
+.day-btn.already {
+  background: #444;
+  color: #999;
+  border-color: #555;
+  cursor: default;
+}
+
+/* botões confirm / cancelar */
+.btn-cancel {
+  background: transparent;
+  color: #ccc;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  cursor: pointer;
+}
+.confirm-btn {
+  padding: 10px 20px;
+  background: #ff2e2e;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.confirm-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+/* responsividade */
+@media (max-width: 900px) {
+  .discipline-section { padding: 80px 6%; height: auto; margin-top: -60px; }
+  .week-title { min-width: 240px; font-size: 16px; padding: 10px 16px; }
+  .table-col { font-size: 15px; padding: 14px 8px; }
+}

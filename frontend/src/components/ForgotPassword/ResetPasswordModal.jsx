@@ -5,7 +5,7 @@ import "./Modal.css";
 import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
 import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
-export default function ResetPasswordModal({ open, onClose, apiBase = "http://localhost:5000", presetEmail }) {
+export default function ResetPasswordModal({ open, onClose, apiBase = process.env.BACKEND_URL || "http://localhost:5000", presetEmail }) {
   const [codigo, setCodigo] = useState("");
   const [codigoValidado, setCodigoValidado] = useState(false);
   const [novaSenha, setNovaSenha] = useState("");
@@ -13,11 +13,9 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
 
-  // novos estados apenas para mostrar/ocultar senha
   const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
   const [mostrarConfirmSenha, setMostrarConfirmSenha] = useState(false);
 
-  // reset states when modal opens / presetEmail changes
   useEffect(() => {
     setCodigo("");
     setCodigoValidado(false);
@@ -28,7 +26,6 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
     setMostrarConfirmSenha(false);
   }, [presetEmail, open]);
 
-  // auto-dismiss alert
   useEffect(() => {
     if (alertMsg) {
       const t = setTimeout(() => setAlertMsg(""), 4000);
@@ -36,88 +33,100 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
     }
   }, [alertMsg]);
 
-  // valida o codigo chamando /reset-senha sem novaSenha (validação-only)
   const validarCodigo = async (incomingCode) => {
     const codeToUse = (incomingCode || codigo || "").replace(/\D/g, "").trim();
-    if (!codeToUse) {
-      setAlertMsg("Preencha o código para validar");
-      return;
-    }
-    if (!presetEmail) {
-      setAlertMsg("Email não informado (reabra o fluxo)");
-      return;
-    }
+
+    if (!codeToUse) return setAlertMsg("Preencha o código para validar");
+    if (!presetEmail) return setAlertMsg("Email não informado");
 
     setLoading(true);
     setAlertMsg("");
+
     try {
       const res = await fetch(`${apiBase}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // NOT sending novaSenha => backend will only validate
         body: JSON.stringify({ email: presetEmail, codigo: codeToUse }),
       });
+
       const data = await res.json();
+
       if (res.ok && data.success) {
         setCodigoValidado(true);
         setAlertMsg("Código validado! Agora insira sua nova senha.");
       } else {
         setCodigoValidado(false);
-        setAlertMsg(data.message || "Código inválido ou expirado");
+        setAlertMsg(data.message || "Código inválido");
       }
     } catch (err) {
       console.error("validarCodigo err:", err);
       setCodigoValidado(false);
-      setAlertMsg("Erro ao conectar com o servidor");
+      setAlertMsg("Erro ao conectar");
     } finally {
       setLoading(false);
     }
   };
 
-  // envia troca definitiva de senha (com novaSenha presente)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!codigoValidado) return setAlertMsg("Valide o código antes de alterar a senha");
+
+    if (!codigoValidado) return setAlertMsg("Valide o código antes");
     if (!novaSenha || !confirmarSenha) return setAlertMsg("Preencha todos os campos");
     if (novaSenha !== confirmarSenha) return setAlertMsg("As senhas não coincidem");
 
     setLoading(true);
     setAlertMsg("");
-    const codigoSanitizado = codigo.replace(/\D/g, "").trim();
 
     try {
       const res = await fetch(`${apiBase}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: presetEmail, codigo: codigoSanitizado, novaSenha }),
+        body: JSON.stringify({
+          email: presetEmail,
+          codigo: codigo.replace(/\D/g, ""),
+          novaSenha,
+        }),
       });
+
       const data = await res.json();
+
       if (!res.ok || !data.success) {
         setAlertMsg(data.message || "Erro ao resetar senha");
       } else {
-        setAlertMsg("Senha alterada com sucesso! Faça login com a nova senha.");
-          setTimeout(() => {
-            onClose();
-          }, 2000);
+        setAlertMsg("Senha alterada com sucesso!");
+
+        setTimeout(() => {
+          onClose();
+        }, 2000);
       }
     } catch (err) {
       console.error("reset-senha err:", err);
-      setAlertMsg("Erro ao conectar com o servidor");
+      setAlertMsg("Erro ao conectar");
     } finally {
       setLoading(false);
     }
   };
 
-  const isBtnDisabled = !codigoValidado || !novaSenha || !confirmarSenha || novaSenha !== confirmarSenha;
+  const isBtnDisabled =
+    !codigoValidado ||
+    !novaSenha ||
+    !confirmarSenha ||
+    novaSenha !== confirmarSenha;
 
   if (!open) return null;
 
   return (
     <>
-      {alertMsg && <div className="modal-top-alert">{alertMsg}</div>}
+      {alertMsg && (
+        <div className="modal-top-alert entrar">
+          {alertMsg}
+        </div>
+      )}
+
       <div className="modal-overlay" role="dialog" aria-modal="true">
         <div className="modal-content">
-          <button className="modal-close" onClick={onClose} aria-label="Fechar">×</button>
+          <button className="modal-close" onClick={onClose}>×</button>
+
           <h3>Redefinir senha</h3>
 
           <form onSubmit={handleSubmit}>
@@ -126,10 +135,7 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
               length={6}
               value={codigo}
               onChange={setCodigo}
-              onComplete={(full) => {
-                // quando PinInput estiver completo, valida
-                validarCodigo(full);
-              }}
+              onComplete={(full) => validarCodigo(full)}
             />
 
             {codigoValidado && (
@@ -146,16 +152,12 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
                     type="button"
                     className="toggle-password"
                     onClick={() => setMostrarNovaSenha(!mostrarNovaSenha)}
-                    aria-label={mostrarNovaSenha ? "Ocultar senha" : "Mostrar senha"}
                   >
-                    <img
-                      src={mostrarNovaSenha ? EyeClosedIcon : EyeOpenIcon}
-                      alt={mostrarNovaSenha ? "Ocultar senha" : "Mostrar senha"}
-                    />
+                    <img src={mostrarNovaSenha ? EyeClosedIcon : EyeOpenIcon} />
                   </button>
                 </div>
 
-                <label>Confirmar nova senha</label>
+                <label>Confirmar senha</label>
                 <div className="password-wrapper">
                   <input
                     type={mostrarConfirmSenha ? "text" : "password"}
@@ -167,12 +169,8 @@ export default function ResetPasswordModal({ open, onClose, apiBase = "http://lo
                     type="button"
                     className="toggle-password"
                     onClick={() => setMostrarConfirmSenha(!mostrarConfirmSenha)}
-                    aria-label={mostrarConfirmSenha ? "Ocultar senha" : "Mostrar senha"}
                   >
-                    <img
-                      src={mostrarConfirmSenha ? EyeClosedIcon : EyeOpenIcon}
-                      alt={mostrarConfirmSenha ? "Ocultar senha" : "Mostrar senha"}
-                    />
+                    <img src={mostrarConfirmSenha ? EyeClosedIcon : EyeOpenIcon} />
                   </button>
                 </div>
               </>

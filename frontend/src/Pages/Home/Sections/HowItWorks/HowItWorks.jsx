@@ -1,4 +1,5 @@
 import "./HowItWorks.css";
+import exampleVideo from "@/assets/videos/examplevideo.mp4";
 
 export const HowItWorks = () => {
   return (
@@ -12,15 +13,12 @@ export const HowItWorks = () => {
       </div>
 
       <div className="video-wrapper" role="region" aria-label="Vídeo explicativo">
-        <div className="video-placeholder">
-          <button
-            className="play-button"
-            aria-label="Reproduzir vídeo"
-            title="Reproduzir vídeo"
-          >
-            ▶
-          </button>
-        </div>
+        <video
+          className="video-player"
+          controls
+          src={exampleVideo}
+          aria-label="Vídeo explicativo de como funciona"
+        />
       </div>
     </section>
   );
