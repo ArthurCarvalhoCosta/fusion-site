@@ -10,7 +10,7 @@ export const HeroSection = () => {
   async function isLoggedServerSide() {
     try {
       // rota de exemplo: /auth/me ou /api/auth/me — ajuste conforme seu backend
-      const res = await fetch('/auth/me', {
+      const res = await fetch(`${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}/auth/me`, {
         method: 'GET',
         credentials: 'include', // caso use cookie de sessão
         headers: {

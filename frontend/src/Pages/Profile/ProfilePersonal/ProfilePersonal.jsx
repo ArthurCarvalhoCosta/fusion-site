@@ -11,7 +11,7 @@ export default function ProfilePersonal() {
 
   async function handleLogout() {
     try {
-      await fetch("/api/auth/logout", {
+      await fetch(`${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });

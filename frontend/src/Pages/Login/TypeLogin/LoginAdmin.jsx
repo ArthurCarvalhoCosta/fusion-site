@@ -16,7 +16,7 @@ const LoginAdmin = () => {
       <div className="login-form">
       <LoginForm
         userType="Admin"
-        apiBase={process.env.BACKEND_URL || "http://localhost:5000"}
+        apiBase={process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}
         apiPath="/api/auth/login"
         redirectTo="/admin/dashboard"
       />

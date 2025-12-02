@@ -77,7 +77,7 @@ export default function AdminInfo() {
 
         const avatarSrc = avatarUrl
           ? avatarUrl.startsWith("/uploads")
-            ? `${process.env.BACKEND_URL || "http://localhost:5000"}${avatarUrl}`
+            ? `${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}${avatarUrl}`
             : avatarUrl
           : null;
 

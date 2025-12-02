@@ -7,7 +7,7 @@ import IconClose from "@/assets/icons/close.svg";
 import IconEdit from "@/assets/icons/edit.svg";
 import IconDelete from "@/assets/icons/delete.svg";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
 
 // Normalização de usuário
 function normalizeUser(u) {
