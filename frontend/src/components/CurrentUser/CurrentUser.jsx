@@ -1,7 +1,7 @@
 // src/components/CurrentUser/CurrentUser.jsx
 import React, { useState, useEffect, useCallback } from "react";
 
-const API_BASE = process.env.BACKEND_URL || "http://localhost:5000";
+const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
 
 export default function CurrentUser({ children }) {
   const [user, setUser] = useState(null);

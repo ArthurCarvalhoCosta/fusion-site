@@ -8,7 +8,7 @@ export default function Avatar({ user, size = 100 }) {
   // garante que avatarUrl só seja considerado válido se não for vazio
   let initialSrc = user?.avatarUrl || user?.avatar || null;
   if (initialSrc && initialSrc.startsWith("/uploads")) {
-    initialSrc = `${process.env.BACKEND_URL || "http://localhost:5000"}${initialSrc}`;
+    initialSrc = `${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}${initialSrc}`;
   }
 
   // estado para lidar com erro de imagem

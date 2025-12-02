@@ -5,7 +5,7 @@ import "./Modal.css";
 import EyeOpenIcon from "@/assets/icons/olho-aberto.svg";
 import EyeClosedIcon from "@/assets/icons/olho-fechado.svg";
 
-export default function ResetPasswordModal({ open, onClose, apiBase = process.env.BACKEND_URL || "http://localhost:5000", presetEmail }) {
+export default function ResetPasswordModal({ open, onClose, apiBase = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV, presetEmail }) {
   const [codigo, setCodigo] = useState("");
   const [codigoValidado, setCodigoValidado] = useState(false);
   const [novaSenha, setNovaSenha] = useState("");
