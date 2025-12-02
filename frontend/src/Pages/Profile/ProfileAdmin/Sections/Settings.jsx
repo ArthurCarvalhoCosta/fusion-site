@@ -3,7 +3,7 @@ import CurrentUser from "@/components/CurrentUser/CurrentUser";
 import Avatar from "@/components/Avatar/Avatar";
 import "./Sections.css";
 
-const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
+const API_BASE = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV;
 
 function formatCPFMask(v) {
   if (!v) return "";

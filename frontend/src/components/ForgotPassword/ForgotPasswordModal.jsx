@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Modal.css";
 
-export default function ForgotPasswordModal({ open, onClose, apiBase = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV, onSent }) {
+export default function ForgotPasswordModal({ open, onClose, apiBase = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV, onSent }) {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");

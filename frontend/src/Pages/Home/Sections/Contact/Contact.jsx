@@ -61,7 +61,7 @@ export const Contact = () => {
     };
 
     try {
-      const res = await fetch(`${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}/api/email/send`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV}/api/email/send`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

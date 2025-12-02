@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer/Footer.jsx";
 import trainingBanner from "@/assets/img/bannerTraining.png";
 import "./WeeklyWorkout.css";
 
-const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
+const API_BASE = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV;
 
 // Limites por plano
 const PLAN_LIMITS = {

@@ -1,7 +1,7 @@
 // src/components/CurrentUser/CurrentUser.jsx
 import React, { useState, useEffect, useCallback } from "react";
 
-const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
+const API_BASE = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV;
 
 export default function CurrentUser({ children }) {
   const [user, setUser] = useState(null);

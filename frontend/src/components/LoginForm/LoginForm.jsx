@@ -10,7 +10,7 @@ import ForgotPasswordModal from "../ForgotPassword/ForgotPasswordModal";
 import ResetPasswordModal from "../ForgotPassword/ResetPasswordModal";
 
 export default function LoginForm({
-  apiBase = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV,
+  apiBase = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV,
   apiPath = "/api/auth/login",
   redirectTo = "/",
   userType = "Aluno",

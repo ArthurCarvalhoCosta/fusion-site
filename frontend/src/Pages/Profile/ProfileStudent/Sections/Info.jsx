@@ -78,7 +78,7 @@ export default function AlunoInfo() {
 
         const avatarSrc = avatarUrl
           ? avatarUrl.startsWith("/uploads")
-            ? `${process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV}${avatarUrl}`
+            ? `${import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV}${avatarUrl}`
             : avatarUrl
           : null;
 

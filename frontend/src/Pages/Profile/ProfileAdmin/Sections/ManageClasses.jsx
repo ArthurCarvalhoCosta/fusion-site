@@ -8,7 +8,7 @@ import IconEdit from "@/assets/icons/edit.svg";
 import IconDelete from "@/assets/icons/delete.svg";
 import IconView from "@/assets/icons/olho-aberto.svg";
 
-const API_BASE = process.env.VITE_BACKEND_URL || process.env.VITE_BACKEND_URL_DEV;
+const API_BASE = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL_DEV;
 
 // Normalização de treino
 function normalizeClasses(t) {
